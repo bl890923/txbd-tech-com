@@ -1,0 +1,3961 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>天星北斗科技（成都）有限公司</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+<style>
+        /* ===== 全局重置 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #0a2b5c;
+            --primary-light: #1a4f8a;
+            --primary-dark: #061a3a;
+            --accent: #2d7dd2;
+            --accent-glow: #4a8fe0;
+            --bg-body: #f0f4fa;
+            --bg-white: #ffffff;
+            --bg-light: #e8eef6;
+            --text-primary: #0a1e3a;
+            --text-secondary: #3d5670;
+            --text-muted: #7a91aa;
+            --border: #dce5ef;
+            --shadow-sm: 0 2px 16px rgba(10, 30, 60, 0.06);
+            --shadow-md: 0 8px 40px rgba(10, 30, 60, 0.10);
+            --shadow-lg: 0 20px 60px rgba(10, 30, 60, 0.14);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 72px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== 导航 ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 0;
+            background: rgba(10, 30, 60, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: var(--transition);
+            height: 72px;
+            display: flex;
+            align-items: center;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .logo a {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 38px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            list-style: none;
+            height: 72px;
+        }
+        .nav-desktop>li {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .nav-desktop>li>a {
+            padding: 0 16px;
+            font-size: 0.80rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+            letter-spacing: 0.2px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+        .nav-desktop>li>a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+        .nav-desktop>li>a:hover::after,
+        .nav-desktop>li>a.active::after {
+            width: 60%;
+        }
+        .nav-desktop>li>a:hover {
+            color: #fff;
+        }
+        .nav-desktop>li>a.active {
+            color: #fff;
+        }
+        .nav-desktop>li>a i {
+            font-size: 0.45rem;
+            margin-left: 4px;
+            opacity: 0.6;
+        }
+
+        .nav-desktop .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background: rgba(15, 35, 70, 0.98);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            min-width: 190px;
+            padding: 8px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            list-style: none;
+            z-index: 100;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .nav-desktop>li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        .dropdown a {
+            display: block;
+            padding: 6px 20px;
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.7);
+            transition: 0.2s;
+            white-space: nowrap;
+            border-left: 2px solid transparent;
+        }
+        .dropdown a:hover {
+            background: rgba(45, 125, 210, 0.15);
+            color: #fff;
+            border-left-color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .nav-right .lang a {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 0 3px;
+            transition: 0.2s;
+        }
+        .nav-right .lang a.active {
+            color: #fff;
+            font-weight: 600;
+        }
+        .nav-right .lang .sep {
+            color: rgba(255, 255, 255, 0.2);
+        }
+        .nav-right .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 2px 6px 2px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: var(--transition);
+        }
+        .nav-right .search-box:focus-within {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.14);
+        }
+        .nav-right .search-box input {
+            background: none;
+            border: none;
+            font-size: 0.75rem;
+            padding: 5px 0;
+            outline: none;
+            width: 70px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .nav-right .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+        .nav-right .search-box button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: 0.2s;
+        }
+        .nav-right .search-box button:hover {
+            color: #fff;
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .nav-mobile {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            background: rgba(10, 30, 60, 0.98);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.5s ease;
+            list-style: none;
+            position: absolute;
+            top: 72px;
+            left: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .nav-mobile.open {
+            max-height: 900px;
+            padding: 12px 0 20px 0;
+        }
+        .nav-mobile>li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .nav-mobile>li>a {
+            display: block;
+            padding: 12px 24px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+        .nav-mobile .sub-mobile {
+            padding-left: 24px;
+            display: none;
+            list-style: none;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .nav-mobile .sub-mobile.open {
+            display: block;
+        }
+        .nav-mobile .sub-mobile a {
+            display: block;
+            padding: 8px 24px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.82rem;
+            border-left: 2px solid transparent;
+        }
+        .nav-mobile .sub-mobile a:hover {
+            color: #fff;
+            border-left-color: var(--accent);
+        }
+        .nav-mobile .mobile-parent i {
+            float: right;
+            transition: 0.3s;
+        }
+        .nav-mobile .mobile-parent.open i {
+            transform: rotate(180deg);
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            height: 600px;
+            max-height: 70vh;
+            position: relative;
+            overflow: hidden;
+            background: var(--primary-dark);
+            cursor: default;
+        }
+        .hero-slides {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .hero-slide {
+            flex: 0 0 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(6, 26, 58, 0.15);
+            z-index: 1;
+        }
+        .hero-effect {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .hero-effect canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .hero-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .hero-controls span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        .hero-controls span.active {
+            background: #fff;
+            width: 32px;
+            border-radius: 6px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        .hero-controls span:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .hero-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            pointer-events: none;
+        }
+        .hero-arrows button {
+            pointer-events: auto;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-arrows button:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: scale(1.08);
+        }
+
+        /* ===== 通用标题 ===== */
+        .section-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(45, 125, 210, 0.10);
+            padding: 4px 16px;
+            border-radius: 30px;
+            margin-bottom: 8px;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .section-title span {
+            color: var(--accent);
+        }
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+        }
+        .section-pad {
+            padding: 72px 0;
+        }
+        .bg-white {
+            background: var(--bg-white);
+        }
+        .bg-light {
+            background: var(--bg-light);
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .section-head .section-desc {
+            margin: 0 auto;
+        }
+        .section-head-left {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .section-head-left .right a {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .section-head-left .right a:hover {
+            gap: 10px;
+            color: var(--primary-light);
+        }
+
+        /* ============================================================
+           1. 产品中心
+           ============================================================ */
+        .product-card {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 24px 20px 22px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+            border-radius: var(--radius);
+        }
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-glow));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 2;
+        }
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        .product-card:hover::after {
+            opacity: 1;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(45, 125, 210, 0.15);
+            border-color: var(--accent);
+        }
+        .product-card:hover .img img {
+            transform: scale(1.06);
+        }
+        .product-card:hover h4 {
+            color: var(--accent);
+        }
+        .product-card:hover .more {
+            color: var(--accent);
+            gap: 10px;
+        }
+        .product-card:hover .tag {
+            background: rgba(45, 125, 210, 0.20);
+            color: var(--accent);
+        }
+        .product-card>* {
+            position: relative;
+            z-index: 1;
+        }
+        .product-card .img {
+            aspect-ratio: 3 / 2;
+            width: 100%;
+            background: var(--bg-light);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 14px;
+            transition: background 0.4s ease;
+        }
+        .product-card .img img {
+            max-width: 85%;
+            max-height: 85%;
+            object-fit: contain;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .product-card .tag {
+            display: inline-block;
+            font-size: 0.55rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(45, 125, 210, 0.10);
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            transition: all 0.4s ease;
+        }
+        .product-card h4 {
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+        .product-card p {
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+            transition: color 0.3s ease;
+        }
+        .product-card .more {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 12px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .product-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .product-categories a {
+            padding: 6px 18px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-radius: 30px;
+            transition: var(--transition);
+            background: var(--bg-body);
+            border: 1px solid transparent;
+        }
+        .product-categories a:hover,
+        .product-categories a.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(45, 125, 210, 0.25);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        /* ============================================================
+           2. 解决方案
+           ============================================================ */
+        #solutions {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #e8f0f8 0%, #d5e3f0 100%);
+        }
+        #solutions::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('http://www.bxnav.cn/static/image/part3_img1.png') center/cover no-repeat;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #solutions .bg-shapes {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #solutions .bg-shapes .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: orbFloat 8s infinite alternate ease-in-out;
+            opacity: 0.6;
+        }
+        #solutions .bg-shapes .orb:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            top: -150px;
+            right: -100px;
+            background: rgba(45, 125, 210, 0.25);
+            animation-duration: 10s;
+        }
+        #solutions .bg-shapes .orb:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -120px;
+            left: -80px;
+            background: rgba(45, 125, 210, 0.20);
+            animation-duration: 12s;
+            animation-delay: 1s;
+        }
+        #solutions .bg-shapes .orb:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 40%;
+            left: 30%;
+            background: rgba(45, 125, 210, 0.15);
+            animation-duration: 9s;
+            animation-delay: 2s;
+        }
+        #solutions .bg-shapes .orb:nth-child(4) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 60%;
+            background: rgba(45, 125, 210, 0.18);
+            animation-duration: 11s;
+            animation-delay: 0.5s;
+        }
+        #solutions .bg-shapes .orb:nth-child(5) {
+            width: 200px;
+            height: 200px;
+            bottom: 20%;
+            right: 20%;
+            background: rgba(45, 125, 210, 0.20);
+            animation-duration: 7s;
+            animation-delay: 3s;
+        }
+        @keyframes orbFloat {
+            0% { transform: translate(0,0) scale(1); }
+            100% { transform: translate(80px, -60px) scale(1.3); }
+        }
+        #solutions .cursor-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.08), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+            filter: blur(30px);
+        }
+        #solutions .cursor-glow.active {
+            opacity: 1;
+        }
+
+        #solutions .satellite-fly-container {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .satellite-fly {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #8bbff5, #2d7dd2);
+            box-shadow: 0 0 30px rgba(45,125,210,0.8);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .satellite-fly::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(to right, rgba(45,125,210,0.6), transparent);
+            transform: translate(-50%, -50%) rotate(-20deg);
+            transform-origin: left center;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 4px rgba(255,255,255,0.5);
+            z-index: 2;
+            animation: shootStar linear infinite;
+            opacity: 0;
+        }
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 80px;
+            height: 1.5px;
+            background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+            transform: translateY(-50%);
+        }
+        @keyframes shootStar {
+            0% { transform: translate(0,0) rotate(-35deg); opacity:1; }
+            70% { opacity:1; }
+            100% { transform: translate(-500px, 320px) rotate(-35deg); opacity:0; }
+        }
+
+        .satellite {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #8bbff5, rgba(45,125,210,0.3));
+            border-radius: 50%;
+            box-shadow: 0 0 20px 6px rgba(45,125,210,0.4);
+            z-index: 2;
+            animation: satOrbit 14s linear infinite;
+        }
+        .satellite::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            transform: translate(-50%,-50%);
+        }
+        @keyframes satOrbit {
+            0% { transform: rotate(0deg) translateX(300px) rotate(0deg); opacity:0.8; }
+            50% { opacity:1; }
+            100% { transform: rotate(360deg) translateX(300px) rotate(-360deg); opacity:0.8; }
+        }
+
+        #solutions .container {
+            position: relative;
+            z-index: 3;
+        }
+        #solutions .section-title {
+            color: var(--text-primary);
+        }
+        #solutions .section-desc {
+            color: var(--text-secondary);
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .solution-card {
+            background: rgba(255,255,255,0.80);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.9);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+        }
+        .solution-card:hover::before {
+            opacity: 1;
+        }
+        .solution-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 56px rgba(45, 125, 210, 0.15);
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.92);
+        }
+        .solution-card:hover .icon {
+            transform: scale(1.10) rotate(-4deg);
+            background: rgba(45, 125, 210, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 8px 28px rgba(45, 125, 210, 0.15);
+        }
+        .solution-card:hover .icon .fallback {
+            transform: scale(1.08);
+        }
+        .solution-card:hover h4 {
+            color: var(--accent);
+        }
+        .solution-card:hover .link {
+            color: var(--accent);
+            gap: 12px;
+        }
+        .solution-card>* {
+            position: relative;
+            z-index: 1;
+        }
+        .solution-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(45,125,210,0.20), rgba(45,125,210,0.06));
+            border: 1px solid rgba(45,125,210,0.10);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .solution-card .icon .fallback {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .solution-card h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+        .solution-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            flex: 1;
+        }
+        .solution-card .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            align-self: flex-start;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        /* ============================================================
+           3. 行业应用
+           ============================================================ */
+        .industry-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+        .industry-item {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 18px 16px 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        .industry-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+        }
+        .industry-item:hover::before {
+            opacity: 1;
+        }
+        .industry-item::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: background 0.6s ease;
+            z-index: 1;
+        }
+        .industry-item:hover::after {
+            background: linear-gradient(135deg, var(--accent), rgba(45,125,210,0.2), var(--accent));
+        }
+        .industry-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(45,125,210,0.12);
+            border-color: rgba(45,125,210,0.3);
+        }
+        .industry-item:hover .img img {
+            transform: scale(1.05);
+        }
+        .industry-item:hover h4 {
+            color: var(--accent);
+        }
+        .industry-item:hover .link {
+            color: var(--accent);
+        }
+        .industry-item>* {
+            position: relative;
+            z-index: 2;
+        }
+        .industry-item .img {
+            height: 72px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--bg-light);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.4s ease;
+        }
+        .industry-item .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .industry-item .date {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+            transition: color 0.3s ease;
+        }
+        .industry-item h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+        .industry-item p {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .industry-item .link {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.68rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        .industry-item.more-btn {
+            background: var(--bg-white);
+            border: 2px dashed var(--border);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+        .industry-item.more-btn .img {
+            background: transparent;
+            height: 60px;
+        }
+        .industry-item.more-btn .img i {
+            font-size: 2.4rem;
+            color: var(--text-muted);
+            opacity: 0.6;
+            transition: all 0.4s ease;
+        }
+        .industry-item.more-btn:hover .img i {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+        .industry-item.more-btn h4 {
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        .industry-item.more-btn p {
+            -webkit-line-clamp: 1;
+            color: var(--text-muted);
+        }
+        .industry-item.more-btn .link {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .industry-item.more-btn:hover .link {
+            color: var(--accent);
+        }
+
+        /* ============================================================
+           4. 关于我们
+           ============================================================ */
+        #about {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-light);
+        }
+        #about .about-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #about .about-bg .dot {
+            position: absolute;
+            border-radius: 50%;
+            animation: dotFloat 12s infinite alternate ease-in-out;
+        }
+        #about .about-bg .dot:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            top: -150px;
+            left: -150px;
+            background: radial-gradient(circle, rgba(45,125,210,0.12), transparent 70%);
+            animation-duration: 14s;
+            animation-delay: 0s;
+        }
+        #about .about-bg .dot:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            right: -100px;
+            background: radial-gradient(circle, rgba(45,125,210,0.10), transparent 70%);
+            animation-duration: 16s;
+            animation-delay: 2s;
+        }
+        #about .about-bg .dot:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 30%;
+            left: 20%;
+            background: radial-gradient(circle, rgba(45,125,210,0.08), transparent 70%);
+            animation-duration: 10s;
+            animation-delay: 4s;
+        }
+        #about .about-bg .dot:nth-child(4) {
+            width: 200px;
+            height: 200px;
+            bottom: 30%;
+            right: 20%;
+            background: radial-gradient(circle, rgba(45,125,210,0.07), transparent 70%);
+            animation-duration: 11s;
+            animation-delay: 1s;
+        }
+        #about .about-bg .dot:nth-child(5) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(45,125,210,0.05), transparent 70%);
+            animation-duration: 18s;
+            animation-delay: 3s;
+        }
+        @keyframes dotFloat {
+            0% { transform: translate(0,0) scale(1); opacity:0.4; }
+            100% { transform: translate(60px, -40px) scale(1.3); opacity:1; }
+        }
+        #about .container {
+            position: relative;
+            z-index: 1;
+        }
+        #about .cursor-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.10), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+            filter: blur(20px);
+        }
+        #about .cursor-glow.active {
+            opacity: 1;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+            line-height: 1.8;
+        }
+        .about-text .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .about-text .badge-group span {
+            background: var(--bg-light);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .about-stats .stat {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 28px 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-stats .stat::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(45,125,210,0.06), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .about-stats .stat:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 20px 56px rgba(45,125,210,0.18);
+            background: linear-gradient(145deg, #ffffff, #f0f7ff);
+        }
+        .about-stats .stat:hover::before {
+            opacity: 1;
+        }
+        .about-stats .stat:hover .num {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+        .about-stats .stat:hover .label {
+            color: var(--accent);
+        }
+        .about-stats .stat .num {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: inline-block;
+        }
+        .about-stats .stat .num .suffix {
+            font-size: 1.8rem;
+        }
+        .about-stats .stat .label {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            transition: color 0.3s ease;
+        }
+
+        /* ============================================================
+           5. 核心优势
+           ============================================================ */
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .advantage-item {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 30px 20px 26px;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        .advantage-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            border-radius: var(--radius);
+        }
+        .advantage-item:hover::before {
+            opacity: 1;
+        }
+        .advantage-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(45,125,210,0.12);
+            border-color: var(--accent);
+        }
+        .advantage-item:hover .icon {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.10) rotate(-3deg);
+            box-shadow: 0 8px 28px rgba(45,125,210,0.25);
+        }
+        .advantage-item:hover h4 {
+            color: var(--accent);
+        }
+        .advantage-item>* {
+            position: relative;
+            z-index: 1;
+        }
+        .advantage-item .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(45,125,210,0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 1.8rem;
+            color: var(--accent);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .advantage-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            transition: color 0.3s ease;
+        }
+        .advantage-item p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ============================================================
+           6. 技术服务
+           ============================================================ */
+        #services {
+            background: #0a1e3a;
+            position: relative;
+            overflow: hidden;
+        }
+        #services::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('http://www.bxnav.cn/static/image/15426093700.jpg') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #services .services-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #services .services-bg .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(45,125,210,0.15);
+            animation: particleFloat linear infinite;
+        }
+        #services .services-bg .particle:nth-child(1) {
+            width: 8px;
+            height: 8px;
+            top: 10%;
+            left: 5%;
+            animation-duration: 16s;
+        }
+        #services .services-bg .particle:nth-child(2) {
+            width: 12px;
+            height: 12px;
+            top: 30%;
+            left: 90%;
+            animation-duration: 20s;
+            animation-delay: 2s;
+        }
+        #services .services-bg .particle:nth-child(3) {
+            width: 5px;
+            height: 5px;
+            top: 60%;
+            left: 10%;
+            animation-duration: 14s;
+            animation-delay: 4s;
+        }
+        #services .services-bg .particle:nth-child(4) {
+            width: 10px;
+            height: 10px;
+            top: 80%;
+            left: 80%;
+            animation-duration: 18s;
+            animation-delay: 1s;
+        }
+        #services .services-bg .particle:nth-child(5) {
+            width: 15px;
+            height: 15px;
+            top: 45%;
+            left: 50%;
+            animation-duration: 22s;
+            animation-delay: 3s;
+        }
+        #services .services-bg .particle:nth-child(6) {
+            width: 6px;
+            height: 6px;
+            top: 15%;
+            left: 60%;
+            animation-duration: 15s;
+            animation-delay: 5s;
+        }
+        #services .services-bg .particle:nth-child(7) {
+            width: 9px;
+            height: 9px;
+            top: 70%;
+            left: 35%;
+            animation-duration: 17s;
+            animation-delay: 2.5s;
+        }
+        #services .services-bg .particle:nth-child(8) {
+            width: 4px;
+            height: 4px;
+            top: 50%;
+            left: 75%;
+            animation-duration: 13s;
+            animation-delay: 6s;
+        }
+        @keyframes particleFloat {
+            0% { transform: translate(0,0) scale(1); opacity:0.2; }
+            25% { opacity:0.7; }
+            50% { transform: translate(80px,-50px) scale(1.6); opacity:0.9; }
+            75% { opacity:0.7; }
+            100% { transform: translate(-40px,30px) scale(0.8); opacity:0.2; }
+        }
+
+        #services .services-cycle-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #services .services-cycle-canvas canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #services .services-glow {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        #services .services-glow .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: glowFloat 10s infinite alternate ease-in-out;
+        }
+        #services .services-glow .glow-orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            right: -100px;
+            background: rgba(45,125,210,0.10);
+            animation-duration: 12s;
+        }
+        #services .services-glow .glow-orb:nth-child(2) {
+            width: 350px;
+            height: 350px;
+            bottom: -80px;
+            left: -80px;
+            background: rgba(45,125,210,0.08);
+            animation-duration: 14s;
+            animation-delay: 2s;
+        }
+        @keyframes glowFloat {
+            0% { transform: translate(0,0) scale(1); opacity:0.4; }
+            100% { transform: translate(50px,-40px) scale(1.2); opacity:0.8; }
+        }
+        #services .cursor-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.12), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+            filter: blur(40px);
+        }
+        #services .cursor-glow.active {
+            opacity: 1;
+        }
+        #services .container {
+            position: relative;
+            z-index: 2;
+        }
+        #services .section-label {
+            background: rgba(45,125,210,0.20);
+            color: #8bbff5;
+        }
+        #services .section-title {
+            color: #fff;
+        }
+        #services .section-title span {
+            color: #6db3f2;
+        }
+        #services .section-desc {
+            color: rgba(255,255,255,0.7);
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .service-item {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius);
+            padding: 32px 20px 28px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .service-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--mouse-x,50%) var(--mouse-y,50%), rgba(45,125,210,0.12), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+        .service-item:hover::before {
+            opacity: 1;
+        }
+        .service-item:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.10);
+            border-color: rgba(45,125,210,0.30);
+            box-shadow: 0 16px 56px rgba(0,0,0,0.30);
+        }
+        .service-item:hover .icon {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.10) rotate(-4deg);
+            box-shadow: 0 8px 32px rgba(45,125,210,0.35);
+        }
+        .service-item:hover h4 {
+            color: #6db3f2;
+        }
+        .service-item .icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: rgba(45,125,210,0.15);
+            border: 1px solid rgba(45,125,210,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 2rem;
+            color: #6db3f2;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .service-item h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+        .service-item p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* ============================================================
+           7. 合作伙伴
+           ============================================================ */
+        #partners {
+            position: relative;
+            overflow: hidden;
+        }
+        #partners .cursor-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.06), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+            filter: blur(40px);
+        }
+        #partners .cursor-glow.active {
+            opacity: 1;
+        }
+        #partners .container {
+            position: relative;
+            z-index: 1;
+        }
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+        }
+        .partner-item {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 20px 12px 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        .partner-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            border-radius: var(--radius);
+        }
+        .partner-item:hover::before {
+            opacity: 1;
+        }
+        .partner-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(45,125,210,0.10);
+        }
+        .partner-item:hover i {
+            opacity: 0.8;
+            color: var(--accent);
+            transform: scale(1.12) rotate(-3deg);
+        }
+        .partner-item:hover .name {
+            color: var(--accent);
+        }
+        .partner-item>* {
+            position: relative;
+            z-index: 1;
+        }
+        .partner-item i {
+            font-size: 2rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .partner-item .name {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        /* ============================================================
+           8. 新闻资讯
+           ============================================================ */
+        .news-carousel-wrap {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius);
+        }
+        .news-carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+            gap: 24px;
+        }
+        .news-card {
+            flex: 0 0 calc(33.333% - 16px);
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            min-width: 0;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+        .news-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+        }
+        .news-card:hover::before {
+            opacity: 1;
+        }
+        .news-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(45,125,210,0.12);
+            background: var(--bg-white);
+        }
+        .news-card:hover .img img {
+            transform: scale(1.04);
+        }
+        .news-card:hover h4 {
+            color: var(--accent);
+        }
+        .news-card:hover .readmore {
+            color: var(--accent);
+        }
+        .news-card>* {
+            position: relative;
+            z-index: 1;
+        }
+        .news-card .img {
+            height: 150px;
+            overflow: hidden;
+            background: var(--bg-light);
+        }
+        .news-card .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .news-card .body {
+            padding: 18px 20px 22px;
+        }
+        .news-card .body .date {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .news-card .body h4 {
+            font-size: 0.92rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+        .news-card .body p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+        .news-card .body .readmore {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        .news-arrows {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .news-arrows button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            color: var(--text-secondary);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .news-arrows button:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(45,125,210,0.25);
+        }
+
+        /* ============================================================
+           9. 联系我们
+           ============================================================ */
+        #contact {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-light);
+        }
+        #contact .contact-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: linear-gradient(135deg, #d4e8fa, #e8f4fd, #d4e8fa, #e8f4fd);
+            background-size: 300% 300%;
+            animation: gradientScroll 12s ease-in-out infinite alternate;
+        }
+        @keyframes gradientScroll {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        #contact .contact-stars-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #contact .contact-stars-canvas canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        #contact .cursor-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.08), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+            filter: blur(40px);
+        }
+        #contact .cursor-glow.active {
+            opacity: 1;
+        }
+        #contact .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        .contact-info h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .contact-info .item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .contact-info .item i {
+            color: var(--accent);
+            width: 20px;
+            margin-top: 2px;
+        }
+        .contact-info .item a {
+            color: var(--text-secondary);
+            transition: 0.2s;
+        }
+        .contact-info .item a:hover {
+            color: var(--accent);
+        }
+        .contact-info .qr-row {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .contact-info .qr-row .qr-item {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        .contact-info .qr-row .qr-item img {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            background: var(--bg-white);
+            padding: 4px;
+            border: 1px solid var(--border);
+            margin-bottom: 4px;
+            object-fit: contain;
+        }
+        .friend-links h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .friend-links .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 24px;
+        }
+        .friend-links .grid a {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 4px 0;
+            transition: 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .friend-links .grid a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* ===== 底部 ===== */
+        .footer {
+            background: var(--bg-white);
+            padding: 24px 0 18px;
+            border-top: 1px solid var(--border);
+        }
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer .copy {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .footer .copy a {
+            color: var(--text-muted);
+        }
+        .footer .copy a:hover {
+            color: var(--accent);
+        }
+        .footer .social {
+            display: flex;
+            gap: 10px;
+        }
+        .footer .social a {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        .footer .social a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* ============================================================
+           响应式
+           ============================================================ */
+        @media (max-width: 1200px) {
+            .product-grid { grid-template-columns: repeat(3,1fr); }
+            .partner-grid { grid-template-columns: repeat(4,1fr); }
+            .services-grid { grid-template-columns: repeat(2,1fr); }
+        }
+        @media (max-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr; gap:40px; }
+            .advantage-grid { grid-template-columns: repeat(2,1fr); }
+            .solution-grid { grid-template-columns: repeat(2,1fr); }
+            .industry-grid { grid-template-columns: repeat(3,1fr); }
+            .news-card { flex: 0 0 calc(50% - 12px); }
+            .contact-grid { grid-template-columns: 1fr; gap:40px; }
+        }
+        @media (max-width: 992px) {
+            .nav-desktop { display: none; }
+            .menu-toggle { display: block; }
+            .nav-mobile { display: flex; }
+            .hero { height: 480px; }
+        }
+
+        /* ===== 手机端（≤768px）：两列/三列 + 英雄缩放 ===== */
+        @media (max-width: 768px) {
+            body { padding-top: 64px; }
+            .navbar { height: 64px; }
+            .nav-mobile { top: 64px; }
+            .section-title { font-size: 1.8rem; }
+            .section-pad { padding: 48px 0; }
+            .nav-right .lang,
+            .nav-right .search-box { display: none; }
+
+            /* 核心模块两列 */
+            .advantage-grid { grid-template-columns: 1fr 1fr; }
+            .product-grid { grid-template-columns: 1fr 1fr; }
+            #solutions .solution-grid { grid-template-columns: 1fr 1fr; }
+            .industry-grid { grid-template-columns: 1fr 1fr; }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            /* 合作伙伴三列 */
+            .partner-grid { grid-template-columns: repeat(3, 1fr); }
+
+            .news-card { flex: 0 0 calc(100% - 0px); }
+            .about-stats { grid-template-columns: 1fr 1fr; }
+
+            /* 英雄区：等比例缩放 + 隐藏动画 */
+            .hero {
+                height: auto;
+                aspect-ratio: 16 / 6.5;
+                max-height: 60vh;
+            }
+            .hero-effect {
+                display: none;
+            }
+
+            .hero-arrows button { width:36px; height:36px; font-size:0.9rem; }
+            .section-head-left { flex-direction: column; align-items: flex-start; }
+            #contact .friend-links .grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            .product-categories { gap:6px; }
+            .product-categories a { padding:4px 14px; font-size:0.7rem; }
+        }
+
+        /* ===== 小手机（≤480px）：保持列数，仅微调间距 ===== */
+        @media (max-width: 480px) {
+            /* 保持两列，不降级为单列 */
+            .advantage-grid,
+            .product-grid,
+            #solutions .solution-grid,
+            .industry-grid,
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            /* 合作伙伴保持三列 */
+            .partner-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .hero {
+                aspect-ratio: 16 / 7;
+                max-height: 50vh;
+            }
+            .hero-arrows { padding:0 8px; }
+            .hero-arrows button { width:28px; height:28px; font-size:0.7rem; }
+            .logo img { height:32px; }
+            .section-title { font-size: 1.5rem; }
+            .section-pad { padding: 36px 0; }
+            .product-card { padding: 16px 12px 16px; }
+            .solution-card { padding: 20px 16px; }
+            .advantage-item { padding: 20px 14px; }
+            .industry-item { padding: 14px 12px 16px; }
+            .partner-item { padding: 14px 8px 12px; }
+            .service-item { padding: 24px 14px 20px; }
+        }
+    </style>
+</head>
+<body>
+<!-- ===== 导航 ===== -->
+<header class="navbar" id="navbar">
+<div class="container">
+<div class="logo">
+<a href="index.html">
+<img alt="天星北斗科技" src="https://img8.dfco.cn/txbd/logo.png"/>
+</a>
+</div>
+<ul class="nav-desktop">
+<li><a class="active" href="index.html">首页</a></li>
+<li>
+<a href="cp/index.html">产品中心 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="cp/gnssmk/index.html">GNSS模块</a></li>
+<li><a href="cp/gnsstx/index.html">GNSS天线</a></li>
+<li><a href="cp/gnssjsj/index.html">GNSS接收机</a></li>
+<li><a href="cp/bdscj/index.html">北斗手持机</a></li>
+<li><a href="cp/dhdwzd/index.html">导航定位终端</a></li>
+<li><a href="cp/bdsczd/index.html">北斗数传终端</a></li>
+<li><a href="cp/jccgq/index.html">监测传感器</a></li>
+<li><a href="cp/nyjqr/index.html">农业机器人</a></li>
+</ul>
+</li>
+<li>
+<a href="jjfa/index.html">解决方案 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="jjfa/aqjc/index.html">安全监测</a></li>
+<li><a href="jjfa/szsg/index.html">机械控制</a></li>
+<li><a href="jjfa/jzny/index.html">智慧农业</a></li>
+<li><a href="jjfa/clch/index.html">测量测绘</a></li>
+<li><a href="jjfa/dhdw/index.html">导航定位</a></li>
+<li><a href="jjfa/wrxt/index.html">无人系统</a></li>
+</ul>
+</li>
+<li>
+<a href="hyyy/index.html">行业应用 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="hyyy/jccp/index.html">基础产品</a></li>
+<li><a href="hyyy/jt/index.html">交通</a></li>
+<li><a href="hyyy/ny/index.html">农业</a></li>
+<li><a href="hyyy/ly/index.html">林业</a></li>
+<li><a href="hyyy/ks/index.html">矿山</a></li>
+<li><a href="hyyy/tzhy/index.html">特种行业</a></li>
+<li><a href="hyyy/fzjz/index.html">防灾减灾</a></li>
+<li><a href="hyyy/dl/index.html">电力</a></li>
+<li><a href="hyyy/qx/index.html">气象</a></li>
+<li><a href="hyyy/yj/index.html">应急</a></li>
+<li><a href="hyyy/gt/index.html">国土</a></li>
+</ul>
+</li>
+<li>
+<a href="gywm/index.html">关于我们 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="gywm/index.html">公司简介</a></li>
+<li><a href="gywm/gsjj/index.html">核心优势</a></li>
+<li><a href="gywm/qywh/index.html">合作伙伴</a></li>
+<li><a href="gywm/lxwm/index.html">联系我们</a></li>
+</ul>
+</li>
+<li>
+<a href="jsfw/index.html">技术服务 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="jsfw/index.html">技术咨询</a></li>
+<li><a href="jsfw/index.html">定制开发</a></li>
+<li><a href="jsfw/index.html">系统集成</a></li>
+<li><a href="jsfw/index.html">运维服务</a></li>
+</ul>
+</li>
+<li><a href="gywm/xwzx/index.html">新闻资讯</a></li>
+</ul>
+<div class="nav-right">
+<div class="lang">
+<a class="active" href="index.html">中</a><span class="sep">|</span><a href="index.html">EN</a>
+</div>
+<div class="search-box">
+<input placeholder="搜索" type="text"/>
+<button type="submit"><i class="fas fa-search"></i></button>
+</div>
+<button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+</div>
+<ul class="nav-mobile" id="navMobile">
+<li><a href="index.html">首页</a></li>
+<li>
+<a class="mobile-parent" href="index.html">产品中心 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="cp/gnssmk/index.html">GNSS模块</a></li>
+<li><a href="cp/gnsstx/index.html">GNSS天线</a></li>
+<li><a href="cp/gnssjsj/index.html">GNSS接收机</a></li>
+<li><a href="cp/bdscj/index.html">北斗手持机</a></li>
+<li><a href="cp/dhdwzd/index.html">导航定位终端</a></li>
+<li><a href="cp/bdsczd/index.html">北斗数传终端</a></li>
+<li><a href="cp/jccgq/index.html">监测传感器</a></li>
+<li><a href="cp/nyjqr/index.html">农业机器人</a></li>
+</ul>
+</li>
+<li>
+<a class="mobile-parent" href="index.html">解决方案 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="jjfa/aqjc/index.html">安全监测</a></li>
+<li><a href="jjfa/szsg/index.html">机械控制</a></li>
+<li><a href="jjfa/jzny/index.html">智慧农业</a></li>
+<li><a href="jjfa/clch/index.html">测量测绘</a></li>
+<li><a href="jjfa/dhdw/index.html">导航定位</a></li>
+<li><a href="jjfa/wrxt/index.html">无人系统</a></li>
+</ul>
+</li>
+<li>
+<a class="mobile-parent" href="index.html">行业应用 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="hyyy/jccp/index.html">基础产品</a></li>
+<li><a href="hyyy/jt/index.html">交通</a></li>
+<li><a href="hyyy/ny/index.html">农业</a></li>
+<li><a href="hyyy/ly/index.html">林业</a></li>
+<li><a href="hyyy/ks/index.html">矿山</a></li>
+<li><a href="hyyy/tzhy/index.html">特种行业</a></li>
+<li><a href="hyyy/fzjz/index.html">防灾减灾</a></li>
+<li><a href="hyyy/dl/index.html">电力</a></li>
+<li><a href="hyyy/qx/index.html">气象</a></li>
+<li><a href="hyyy/yj/index.html">应急</a></li>
+<li><a href="hyyy/gt/index.html">国土</a></li>
+</ul>
+</li>
+<li>
+<a class="mobile-parent" href="index.html">关于我们 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="gywm/index.html">公司简介</a></li>
+<li><a href="gywm/gsjj/index.html">核心优势</a></li>
+<li><a href="gywm/qywh/index.html">合作伙伴</a></li>
+<li><a href="gywm/lxwm/index.html">联系我们</a></li>
+</ul>
+</li>
+<li>
+<a class="mobile-parent" href="index.html">技术服务 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="jsfw/index.html">技术咨询</a></li>
+<li><a href="jsfw/index.html">定制开发</a></li>
+<li><a href="jsfw/index.html">系统集成</a></li>
+<li><a href="jsfw/index.html">运维服务</a></li>
+</ul>
+</li>
+<li><a href="gywm/xwzx/index.html">新闻资讯</a></li>
+</ul>
+</div>
+</header>
+<!-- ===== Hero ===== -->
+<section class="hero" id="hero">
+<div class="hero-slides" id="heroSlides">
+<div class="hero-slide active" style="background-image:url('http://img8.dfco.cn/txbd/banner01.jpg');">
+<div class="hero-effect" id="effect0"><canvas id="canvas0"></canvas></div>
+</div>
+<div class="hero-slide" style="background-image:url('http://img8.dfco.cn/txbd/banner02.jpg');">
+<div class="hero-effect" id="effect1"><canvas id="canvas1"></canvas></div>
+</div>
+<div class="hero-slide" style="background-image:url('http://img8.dfco.cn/txbd/banner03.jpg');">
+<div class="hero-effect" id="effect2"><canvas id="canvas2"></canvas></div>
+</div>
+<div class="hero-slide" style="background-image:url('http://img8.dfco.cn/txbd/banner04.jpg');">
+<div class="hero-effect" id="effect3"><canvas id="canvas3"></canvas></div>
+</div>
+<div class="hero-slide" style="background-image:url('http://img8.dfco.cn/txbd/banner05.jpg');">
+<div class="hero-effect" id="effect4"><canvas id="canvas4"></canvas></div>
+</div>
+<div class="hero-slide" style="background-image:url('http://img8.dfco.cn/txbd/banner06.jpg');">
+<div class="hero-effect" id="effect5"><canvas id="canvas5"></canvas></div>
+</div>
+</div>
+<div class="hero-arrows">
+<button id="heroPrev"><i class="fas fa-chevron-left"></i></button>
+<button id="heroNext"><i class="fas fa-chevron-right"></i></button>
+</div>
+<div class="hero-controls" id="heroControls">
+<span class="active" data-index="0"></span>
+<span data-index="1"></span>
+<span data-index="2"></span>
+<span data-index="3"></span>
+<span data-index="4"></span>
+<span data-index="5"></span>
+</div>
+</section>
+<!-- ===== 产品中心 ===== -->
+<section class="section-pad bg-white" id="products">
+<div class="container">
+<div class="section-head-left">
+<div>
+<span class="section-label">核心产品</span>
+<h2 class="section-title">产品<span>中心</span></h2>
+<p class="section-desc">高精度定位模块 · 终端 · 传感器 · 机器人</p>
+</div>
+<div class="right">
+<a href="cp/index.html">查看全部 <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+<div class="product-categories">
+<a class="active" href="cp/gnssmk/index.html">GNSS模块</a>
+<a href="cp/gnsstx/index.html">GNSS天线</a>
+<a href="cp/gnssjsj/index.html">GNSS接收机</a>
+<a href="cp/bdscj/index.html">北斗手持机</a>
+<a href="cp/dhdwzd/index.html">导航定位终端</a>
+<a href="cp/bdsczd/index.html">北斗数传终端</a>
+<a href="cp/jccgq/index.html">监测传感器</a>
+<a href="cp/nyjqr/index.html">农业机器人</a>
+</div>
+<div class="product-grid">
+<div class="product-card">
+<div class="img"><img alt="UM982" src="http://www.bxnav.cn/d/file/d4e0d94d8b0eebc382ac58aae2a4be70.png"/></div>
+<span class="tag">模块</span>
+<h4>UM982 全系统全频高精度定位定向模块</h4>
+<p>基于NebulasIV芯片，片上RTK+双天线定向，抗干扰，适用于无人机、割草机、智能驾驶</p>
+<a class="more" href="cp/gnssmk/dwdxmk-108.html">了解更多 <i class="fas fa-arrow-right"></i></a>
+</div>
+<div class="product-card">
+<div class="img"><img alt="BX-CR120" src="http://www.bxnav.cn/d/file/b41d4414d517d2bc651a5613e937768c.png"/></div>
+<span class="tag">终端</span>
+<h4>BX-CR120 型智能遥测终端</h4>
+<p>低功耗设计，集采集、传输、存储于一体，适用于地质灾害监测、水利、铁路、气象等</p>
+<a class="more" href="cp/jccgq/znyczdrtu-87.html">了解更多 <i class="fas fa-arrow-right"></i></a>
+</div>
+<div class="product-card">
+<div class="img"><img alt="R60" src="http://www.bxnav.cn/d/file/f17d0a75a92740c61d2d07148a495dc5.png"/></div>
+<span class="tag">接收机</span>
+<h4>R60 GNSS 接收机</h4>
+<p>双天线定位定向，内置高精度板卡、惯导、4G、以太网，适用于驾考、特种车辆、精准农业</p>
+<a class="more" href="cp/gnssjsj/dwjsj-72.html">了解更多 <i class="fas fa-arrow-right"></i></a>
+</div>
+<div class="product-card">
+<div class="img"><img alt="G300" src="http://www.bxnav.cn/d/file/6bfdd1b550d2785688c6ba69b7a0c1f4.png"/></div>
+<span class="tag">接收机</span>
+<h4>G300 普适型 GNSS 接收机</h4>
+<p>内置MEMS传感器，自动切换工作模式，IP68防护，适应严苛野外环境</p>
+<a class="more" href="cp/gnssjsj/dwjsj-71.html">了解更多 <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== 解决方案 ===== -->
+<section class="section-pad" id="solutions">
+<div class="cursor-glow" id="solutionsGlow"></div>
+<div class="bg-shapes">
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="orb"></div>
+<div class="shooting-star" style="top:10%;left:70%;animation-duration:3.5s;animation-delay:0s;"></div>
+<div class="shooting-star" style="top:25%;left:50%;animation-duration:4.2s;animation-delay:2s;"></div>
+<div class="shooting-star" style="top:5%;left:85%;animation-duration:2.8s;animation-delay:4.5s;"></div>
+<div class="shooting-star" style="top:40%;left:30%;animation-duration:5s;animation-delay:7s;"></div>
+<div class="shooting-star" style="top:60%;left:10%;animation-duration:3.8s;animation-delay:9s;"></div>
+<div class="shooting-star" style="top:80%;left:60%;animation-duration:4.5s;animation-delay:11s;"></div>
+<div class="satellite" style="top:15%;right:10%;animation-duration:12s;"></div>
+<div class="satellite" style="top:70%;left:5%;animation-duration:16s;animation-delay:3s;width:6px;height:6px;"></div>
+<div class="satellite" style="top:40%;right:20%;animation-duration:14s;animation-delay:6s;width:10px;height:10px;"></div>
+</div>
+<div class="satellite-fly-container" id="satelliteFlyContainer"></div>
+<div class="container">
+<div class="section-head">
+<span class="section-label">行业方案</span>
+<h2 class="section-title">解决<span>方案</span></h2>
+<p class="section-desc">覆盖安全监测 · 机械控制 · 智慧农业 · 无人系统</p>
+</div>
+<div class="solution-grid">
+<div class="solution-card">
+<div class="icon"><span class="fallback">安</span></div>
+<h4>安全监测</h4>
+<p>以北斗高精度定位技术为核心，融合多种监测传感器，构建自动化监测预警系统，为地质灾害、水库大坝、矿山、桥梁等提供全方位监测与预警服务。</p>
+<a class="link" href="jjfa/aqjc/index.html">了解详情 <i class="fas fa-arrow-right"></i></a>
+</div>
+<div class="solution-card">
+<div class="icon"><span class="fallback">机</span></div>
+<h4>机械控制</h4>
+<p>依托北斗高精度定位、定向、测姿和物联网技术，实现工程机械引导、自动控制和无人驾驶，提升工程建设全生命周期管理效率。</p>
+<a class="link" href="jjfa/szsg/index.html">了解详情 <i class="fas fa-arrow-right"></i></a>
+</div>
+<div class="solution-card">
+<div class="icon"><span class="fallback">农</span></div>
+<h4>智慧农业</h4>
+<p>基于北斗导航、激光雷达、视觉识别及AI智能控制技术，覆盖耕种管收全流程，提供农机自动驾驶、变量施肥、自动采摘等智能化解决方案。</p>
+<a class="link" href="jjfa/jzny/index.html">了解详情 <i class="fas fa-arrow-right"></i></a>
+</div>
+<div class="solution-card">
+<div class="icon"><span class="fallback">测</span></div>
+<h4>测量测绘</h4>
+<p>高精度控制测量、地形图绘制，提供可靠的空间数据支撑，广泛应用于国土、交通、水利等基础设施建设领域。</p>
+<a class="link" href="jjfa/clch/index.html">了解详情 <i class="fas fa-arrow-right"></i></a>
+</div>
+<div class="solution-card">
+<div class="icon"><span class="fallback">导</span></div>
+<h4>导航定位</h4>
+<p>车载导航、人员定位，提供精准位置服务与轨迹管理，赋能智能交通、物流调度、应急指挥等应用场景。</p>
+<a class="link" href="jjfa/dhdw/index.html">了解详情 <i class="fas fa-arrow-right"></i></a>
+</div>
+<div class="solution-card">
+<div class="icon"><span class="fallback">无</span></div>
+<h4>无人系统</h4>
+<p>无人机、无人车精准控制，推动自主化作业与智能调度，广泛应用于农业植保、巡检勘探、物流配送等领域。</p>
+<a class="link" href="jjfa/wrxt/index.html">了解详情 <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== 行业应用 ===== -->
+<section class="section-pad bg-white" id="industry">
+<div class="container">
+<div class="section-head">
+<span class="section-label">应用场景</span>
+<h2 class="section-title">行业<span>应用</span></h2>
+<p class="section-desc">覆盖多行业，赋能千行百业</p>
+</div>
+<div class="industry-grid">
+<div class="industry-item">
+<div class="img"><img alt="基础产品" src="http://www.bxnav.cn/d/file/c5793646df6f40b43364485b444924b4.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>基础产品</h4>
+<p>北斗芯片、模块、板卡和天线在北斗系统中起着重要作用。</p>
+<a class="link" href="hyyy/jccp/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="交通" src="http://www.bxnav.cn/d/file/569e158612227e498a1d8e3ee3ada9f6.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>交通</h4>
+<p>北斗助力交通运输信息化与现代化建设，构建畅通高效安全的运输体系。</p>
+<a class="link" href="hyyy/jt/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="农业" src="http://www.bxnav.cn/d/file/c0f26fcb8a8e7cf6c55d5cf290b8e277.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>农业</h4>
+<p>北斗在农业领域的应用综述与优势分析，助力精准农业与智慧农业发展。</p>
+<a class="link" href="hyyy/ny/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="林业" src="http://www.bxnav.cn/d/file/f753b4ba5f7513975d3ea5d6edcfd634.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>林业</h4>
+<p>北斗在林业资源监测、森林防火、生态保护等领域的应用探索与实践。</p>
+<a class="link" href="hyyy/ly/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="矿山" src="http://www.bxnav.cn/d/file/414df21adfdd2a3382fdd954d13e6dc6.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>矿山</h4>
+<p>北斗在矿山安全监测、车辆调度、人员定位等场景的应用与研究综述。</p>
+<a class="link" href="hyyy/ks/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="特种行业" src="http://www.bxnav.cn/d/file/79a556448933319a292ca3ba0756d291.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>特种行业</h4>
+<p>北斗在特种行业中的应用优势与挑战，满足高精度、高可靠性定位需求。</p>
+<a class="link" href="hyyy/tzhy/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="防灾减灾" src="http://www.bxnav.cn/d/file/267e7606225f507d49aad5b767e0481c.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>防灾减灾</h4>
+<p>北斗在自然灾害监测预警、应急响应等领域的应用研究与案例分析。</p>
+<a class="link" href="hyyy/fzjz/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="电力" src="http://www.bxnav.cn/d/file/e49249d4aa9ae664fe24f212b7a5cfa1.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>电力</h4>
+<p>北斗在电力巡检、电网监测、杆塔形变监测等领域的广泛应用与价值。</p>
+<a class="link" href="hyyy/dl/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="气象" src="http://www.bxnav.cn/d/file/20f99d07a8cc9bfbd9c76821eed65dec.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>气象</h4>
+<p>北斗在水文气象监测、大气探测等领域的应用研究与发展展望。</p>
+<a class="link" href="hyyy/qx/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="应急" src="http://www.bxnav.cn/d/file/2de570daefb324dc861cab7e54ce39fe.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>应急</h4>
+<p>北斗在自然灾害预警、应急通信、灾后救援等场景中的关键应用。</p>
+<a class="link" href="hyyy/yj/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item">
+<div class="img"><img alt="国土" src="http://www.bxnav.cn/d/file/bb7b63c41a22019c014a6aca3599f340.png"/></div>
+<div class="date">2023-09-17</div>
+<h4>国土</h4>
+<p>北斗在国土资源管理、地质勘探、环境监测等领域的深度应用。</p>
+<a class="link" href="hyyy/gt/index.html">阅读全文 →</a>
+</div>
+<div class="industry-item more-btn">
+<div class="img"><i class="fas fa-plus-circle"></i></div>
+<h4>查看更多</h4>
+<p>探索更多行业应用场景</p>
+<a class="link" href="hyyy/index.html">立即查看 →</a>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== 关于我们 ===== -->
+<section class="section-pad" id="about">
+<div class="about-bg">
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+</div>
+<div class="cursor-glow" id="aboutGlow"></div>
+<div class="container">
+<div class="about-grid">
+<div class="about-text">
+<span class="section-label">关于我们</span>
+<h2 class="section-title">北斗赋能 · <span>引领智能未来</span></h2>
+<p>天星北斗科技（成都）有限公司是一家专注于北斗导航定位与控制技术研发的高科技企业。我们致力于为各行业提供高精度的北斗产品和定制化的应用解决方案，推动智能化技术在多个领域的深度应用，助力构建智能社会。</p>
+<p>我们的核心产品涵盖北斗/GNSS组合导航接收机、RTK测量测绘接收机、形变监测传感器、农业机器人、数字施工系统等。产品广泛应用于水库大坝监测、地质灾害监测、高速公路边坡监测、矿山安全监测、精准农业、数字施工、智能交通、机器人、无人机、测绘与地理信息等多个领域。</p>
+<p>我们始终秉持创新驱动、技术引领的理念，致力于通过北斗和控制技术的深度应用，推动各行业的智能化升级，为构建智能社会创造更大的价值。</p>
+<div class="badge-group">
+<span><i class="fas fa-check-circle" style="color:var(--accent);margin-right:4px;"></i> 北斗高精度定位</span>
+<span><i class="fas fa-check-circle" style="color:var(--accent);margin-right:4px;"></i> 物联网 + 大数据</span>
+<span><i class="fas fa-check-circle" style="color:var(--accent);margin-right:4px;"></i> 多传感器融合</span>
+<span><i class="fas fa-check-circle" style="color:var(--accent);margin-right:4px;"></i> 全生命周期服务</span>
+</div>
+</div>
+<div class="about-stats">
+<div class="stat" data-target="10">
+<div class="num"><span class="counter">0</span><span class="suffix">+</span></div>
+<div class="label">行业应用领域</div>
+</div>
+<div class="stat" data-target="30">
+<div class="num"><span class="counter">0</span><span class="suffix">+</span></div>
+<div class="label">核心产品型号</div>
+</div>
+<div class="stat" data-target="7">
+<div class="num"><span class="counter">0</span><span class="suffix">×24</span></div>
+<div class="label">监测预警服务</div>
+</div>
+<div class="stat" data-target="99.9">
+<div class="num"><span class="counter">0</span><span class="suffix">%</span></div>
+<div class="label">定位可靠性</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== 核心优势 ===== -->
+<section class="section-pad bg-white" id="advantages">
+<div class="container">
+<div class="section-head">
+<span class="section-label">核心优势</span>
+<h2 class="section-title">为什么选择 <span>我们</span></h2>
+<p class="section-desc">以北斗高精度定位技术为核心，融合多传感器与智能算法，驱动行业革新</p>
+</div>
+<div class="advantage-grid">
+<div class="advantage-item">
+<div class="icon"><i class="fas fa-satellite"></i></div>
+<h4>北斗高精度定位</h4>
+<p>全系统全频点信号跟踪，毫米级RTK定位精度，复杂环境下依然可靠</p>
+</div>
+<div class="advantage-item">
+<div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+<h4>物联网 + 大数据</h4>
+<p>构建自动化监测预警平台，实现数据采集、传输、分析与可视化</p>
+</div>
+<div class="advantage-item">
+<div class="icon"><i class="fas fa-microchip"></i></div>
+<h4>多传感器融合</h4>
+<p>惯导、视觉、激光雷达等多源数据融合，提升系统鲁棒性与精度</p>
+</div>
+<div class="advantage-item">
+<div class="icon"><i class="fas fa-shield-alt"></i></div>
+<h4>全生命周期服务</h4>
+<p>从方案设计、产品定制到部署运维，提供端到端的全流程服务</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== 技术服务 ===== -->
+<section class="section-pad" id="services">
+<div class="cursor-glow" id="servicesGlow"></div>
+<div class="services-bg">
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+</div>
+<div class="services-cycle-canvas" id="servicesCycleCanvas"><canvas id="servicesCycle"></canvas></div>
+<div class="services-glow">
+<div class="glow-orb"></div>
+<div class="glow-orb"></div>
+</div>
+<div class="container">
+<div class="section-head">
+<span class="section-label">技术赋能</span>
+<h2 class="section-title">技术<span>服务</span></h2>
+<p class="section-desc">从咨询到运维，全链路技术支撑</p>
+</div>
+<div class="services-grid">
+<div class="service-item">
+<div class="icon"><i class="fas fa-comments"></i></div>
+<h4>技术咨询</h4>
+<p>提供北斗高精度定位、物联网、AI融合等领域的专业技术咨询与方案评估。</p>
+</div>
+<div class="service-item">
+<div class="icon"><i class="fas fa-code"></i></div>
+<h4>定制开发</h4>
+<p>根据行业场景需求，提供软硬件一体化定制开发服务，快速响应市场变化。</p>
+</div>
+<div class="service-item">
+<div class="icon"><i class="fas fa-network-wired"></i></div>
+<h4>系统集成</h4>
+<p>将北斗定位、传感器、通信、云平台等模块高效集成，构建完整的行业解决方案。</p>
+</div>
+<div class="service-item">
+<div class="icon"><i class="fas fa-headset"></i></div>
+<h4>运维服务</h4>
+<p>提供7×24小时系统监控、故障排查、数据备份与远程运维支持服务。</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== 合作伙伴 ===== -->
+<section class="section-pad bg-light" id="partners">
+<div class="cursor-glow" id="partnersGlow"></div>
+<div class="container">
+<div class="section-head">
+<span class="section-label">生态伙伴</span>
+<h2 class="section-title">合作<span>伙伴</span></h2>
+<p class="section-desc">与行业领先企业携手，共建北斗应用生态</p>
+</div>
+<div class="partner-grid">
+<div class="partner-item">
+<i class="fas fa-building"></i>
+<span class="name">中国航天科技</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-microchip"></i>
+<span class="name">和芯星通</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-globe"></i>
+<span class="name">中国移动</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-map"></i>
+<span class="name">南方测绘</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-tractor"></i>
+<span class="name">中联重科</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-university"></i>
+<span class="name">电子科技大学</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-database"></i>
+<span class="name">阿里云</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-robot"></i>
+<span class="name">大疆创新</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-satellite-dish"></i>
+<span class="name">北斗星通</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-car"></i>
+<span class="name">比亚迪</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-tree"></i>
+<span class="name">中国林业集团</span>
+</div>
+<div class="partner-item">
+<i class="fas fa-water"></i>
+<span class="name">长江水利委员会</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== 新闻资讯 ===== -->
+<section class="section-pad bg-white" id="news">
+<div class="container">
+<div class="section-head-left">
+<div>
+<span class="section-label">最新动态</span>
+<h2 class="section-title">新闻<span>资讯</span></h2>
+<p class="section-desc">聚焦北斗产业动态，分享前沿技术</p>
+</div>
+<div class="right">
+<a href="gywm/xwzx/index.html">全部新闻 <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+<div class="news-carousel-wrap">
+<div class="news-carousel-track" id="newsTrack">
+<div class="news-card">
+<div class="img"><img alt="新闻" src="http://www.bxnav.cn/d/file/549641863f15377d9438759aacf23ff8.png"/></div>
+<div class="body">
+<span class="date">2024-07-05</span>
+<h4>李德仁院士获2023年度国家最高科学技术奖！</h4>
+<p>新华社权威快报 2023年度国家最高科学技术奖在京揭晓，李德仁院士获得中国科技界崇高荣誉。</p>
+<a class="readmore" href="gywm/xwzx/132.html">阅读全文 →</a>
+</div>
+</div>
+<div class="news-card">
+<div class="img"><img alt="新闻" src="http://www.bxnav.cn/d/file/a74dadad1a5a6e1dc33445582ec76f6a.png"/></div>
+<div class="body">
+<span class="date">2023-09-17</span>
+<h4>服务全球造福人类，中国北斗辉耀苍穹</h4>
+<p>国务院新闻办公室发布《新时代的中国北斗》白皮书，介绍中国北斗系统发展成就和未来愿景。</p>
+<a class="readmore" href="gywm/xwzx/48.html">阅读全文 →</a>
+</div>
+</div>
+<div class="news-card">
+<div class="img"><img alt="新闻" src="http://www.bxnav.cn/d/file/07e42ae6d90678a6c34f545e3a63176a.png"/></div>
+<div class="body">
+<span class="date">2023-09-17</span>
+<h4>开通两年，中国北斗再次实力出圈</h4>
+<p>北斗高精度服务为东嘎石窟文物保护监测提供解决方案，助力文化遗产保护。</p>
+<a class="readmore" href="gywm/xwzx/47.html">阅读全文 →</a>
+</div>
+</div>
+<div class="news-card">
+<div class="img"><img alt="新闻" src="http://www.bxnav.cn/d/file/549641863f15377d9438759aacf23ff8.png"/></div>
+<div class="body">
+<span class="date">2024-06-20</span>
+<h4>北斗系统助力智能驾驶新时代</h4>
+<p>北斗高精度定位技术正在推动智能驾驶产业快速发展，为自动驾驶提供可靠的位置服务。</p>
+<a class="readmore" href="gywm/xwzx/133.html">阅读全文 →</a>
+</div>
+</div>
+<div class="news-card">
+<div class="img"><img alt="新闻" src="http://www.bxnav.cn/d/file/a74dadad1a5a6e1dc33445582ec76f6a.png"/></div>
+<div class="body">
+<span class="date">2024-06-10</span>
+<h4>北斗+5G融合应用加速落地</h4>
+<p>北斗与5G技术的深度融合，正在为智慧城市、工业互联网等领域带来创新应用场景。</p>
+<a class="readmore" href="gywm/xwzx/134.html">阅读全文 →</a>
+</div>
+</div>
+<div class="news-card">
+<div class="img"><img alt="新闻" src="http://www.bxnav.cn/d/file/07e42ae6d90678a6c34f545e3a63176a.png"/></div>
+<div class="body">
+<span class="date">2024-05-28</span>
+<h4>北斗监测系统成功预警山体滑坡</h4>
+<p>某地北斗地质灾害监测系统成功预警一起山体滑坡，有效保障了人民群众生命财产安全。</p>
+<a class="readmore" href="gywm/xwzx/135.html">阅读全文 →</a>
+</div>
+</div>
+</div>
+</div>
+<div class="news-arrows">
+<button id="newsPrev"><i class="fas fa-chevron-left"></i></button>
+<button id="newsNext"><i class="fas fa-chevron-right"></i></button>
+</div>
+</div>
+</section>
+<!-- ===== 联系我们 ===== -->
+<section class="section-pad" id="contact">
+<div class="contact-bg"></div>
+<div class="contact-stars-canvas" id="contactStarsCanvas"><canvas id="contactStars"></canvas></div>
+<div class="cursor-glow" id="contactGlow"></div>
+<div class="container">
+<div class="contact-grid">
+<div class="contact-info">
+<span class="section-label">联系我们</span>
+<h3>欢迎咨询 · <span style="color:var(--accent);">携手合作</span></h3>
+<div class="item">
+<i class="fas fa-user"></i>
+<span><strong>郭经理</strong>  |  业务咨询</span>
+</div>
+<div class="item">
+<i class="fas fa-phone"></i>
+<span><a href="tel:18201990009">182-0199-0009</a>  |  <a href="tel:02889139880">028-89139880</a></span>
+</div>
+<div class="item">
+<i class="fas fa-globe"></i>
+<span><a href="index.html" target="_blank">www.txbd-tech.com</a></span>
+</div>
+<div class="item">
+<i class="fas fa-map-marker-alt"></i>
+<span>成都市温江区和居路 560 号三医创新中心四期 7 栋 7 层</span>
+</div>
+<div class="qr-row">
+<div class="qr-item">
+<img alt="公众号" src="http://www.bxnav.cn/static/picture/code1.png"/>
+<span>天星北斗公众号</span>
+</div>
+<div class="qr-item">
+<img alt="商城" src="http://www.bxnav.cn/static/picture/wxqrcode.jpg"/>
+<span>天星商城</span>
+</div>
+</div>
+</div>
+<div class="friend-links">
+<span class="section-label">友情链接</span>
+<h3>合作 <span style="color:var(--accent);">伙伴</span></h3>
+<div class="grid">
+<a href="http://www.beidou.gov.cn/" target="_blank">中国北斗卫星导航系统</a>
+<a href="http://www.gnss.com/" target="_blank">GNSS 世界</a>
+<a href="http://www.simwe.com/" target="_blank">仿真在线</a>
+<a href="http://www.3snews.net/" target="_blank">3S 新闻</a>
+<a href="http://www.chinauav.com/" target="_blank">无人机网</a>
+<a href="http://www.agri.cn/" target="_blank">中国农业信息网</a>
+<a href="http://www.cgs.gov.cn/" target="_blank">中国地质调查局</a>
+<a href="http://www.iot.china.com/" target="_blank">中国物联网</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ===== 底部 ===== -->
+<footer class="footer" id="footer">
+<div class="container">
+<div class="copy">
+<i class="far fa-copyright"></i> 2023 天星北斗科技（成都）有限公司  |  <a href="index.html" target="_blank">蜀ICP备2022011743号-1</a>
+</div>
+<div class="social">
+<a href="index.html"><i class="fab fa-weixin"></i></a>
+<a href="index.html"><i class="fab fa-weibo"></i></a>
+<a href="index.html"><i class="fas fa-star"></i></a>
+</div>
+</div>
+</footer>
+<!-- ===== JavaScript ===== -->
+<script>
+        (function() {
+            // ---- 移动端菜单 ----
+            const toggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('navMobile');
+            if (toggle && mobileMenu) {
+                toggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('open');
+                });
+                document.querySelectorAll('.mobile-parent').forEach(function(parent) {
+                    parent.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const sub = this.nextElementSibling;
+                        if (sub && sub.classList.contains('sub-mobile')) {
+                            sub.classList.toggle('open');
+                            this.classList.toggle('open');
+                        }
+                    });
+                });
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenu.contains(e.target) && !toggle.contains(e.target)) {
+                        mobileMenu.classList.remove('open');
+                    }
+                });
+            }
+
+            // ---- Hero 轮播控制 ----
+            const slides = document.getElementById('heroSlides');
+            const dots = document.querySelectorAll('#heroControls span');
+            const prevBtn = document.getElementById('heroPrev');
+            const nextBtn = document.getElementById('heroNext');
+            const slideItems = document.querySelectorAll('.hero-slide');
+            const total = dots.length;
+            let current = 0,
+                timer = null;
+            let isTransitioning = false;
+
+            // ---- 鼠标坐标 ----
+            let mouseX = -1000,
+                mouseY = -1000;
+            const hero = document.getElementById('hero');
+            hero.addEventListener('mousemove', function(e) {
+                const rect = hero.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
+            });
+            hero.addEventListener('mouseleave', function() {
+                mouseX = -1000;
+                mouseY = -1000;
+            });
+
+            // ---- Canvas 初始化 ----
+            const canvases = [];
+            const ctxs = [];
+            for (let i = 0; i < 6; i++) {
+                const canvas = document.getElementById('canvas' + i);
+                if (canvas) {
+                    const rect = canvas.parentElement.getBoundingClientRect();
+                    canvas.width = rect.width || window.innerWidth;
+                    canvas.height = rect.height || 600;
+                    canvases[i] = canvas;
+                    ctxs[i] = canvas.getContext('2d');
+                }
+            }
+
+            function resizeCanvases() {
+                const index = current;
+                const canvas = canvases[index];
+                if (canvas) {
+                    const rect = canvas.parentElement.getBoundingClientRect();
+                    canvas.width = rect.width || window.innerWidth;
+                    canvas.height = rect.height || 600;
+                }
+            }
+            window.addEventListener('resize', resizeCanvases);
+
+            // ---- 检测是否为手机端 ----
+            function isMobile() {
+                return window.innerWidth <= 768;
+            }
+
+            // ---- 特效工厂 ----
+            function initBlizzard(canvas, ctx) {
+                const w = canvas.width,
+                    h = canvas.height;
+                const snowflakes = [];
+                const count = 380;
+                for (let i = 0; i < count; i++) {
+                    snowflakes.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h - h * 0.2,
+                        size: 1.5 + Math.random() * 7,
+                        speed: 0.6 + Math.random() * 2.8,
+                        drift: (Math.random() - 0.5) * 0.8,
+                        phase: Math.random() * 100,
+                        alpha: 0.4 + Math.random() * 0.6,
+                        twinkle: Math.random() * 100,
+                        twinkleSpeed: 0.4 + Math.random() * 1.8,
+                        wobble: 0.3 + Math.random() * 0.8
+                    });
+                }
+                let time = 0,
+                    animId = null;
+
+                function draw() {
+                    time += 0.012;
+                    ctx.clearRect(0, 0, w, h);
+                    const grad = ctx.createRadialGradient(w * 0.5, h * 0.4, 0, w * 0.5, h * 0.4, Math.max(w, h) * 0.7);
+                    grad.addColorStop(0, 'rgba(220,240,255,0.04)');
+                    grad.addColorStop(1, 'rgba(220,240,255,0)');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, 0, w, h);
+                    if (mouseX > 0) {
+                        const g = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 180);
+                        g.addColorStop(0, 'rgba(255,255,255,0.05)');
+                        g.addColorStop(0.5, 'rgba(200,230,255,0.03)');
+                        g.addColorStop(1, 'rgba(200,230,255,0)');
+                        ctx.fillStyle = g;
+                        ctx.beginPath();
+                        ctx.arc(mouseX, mouseY, 180, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    for (const s of snowflakes) {
+                        s.y += s.speed * (0.8 + 0.2 * Math.sin(time * 0.3 + s.phase));
+                        s.x += Math.sin(time * 0.6 + s.phase + s.y * 0.005) * s.drift * s.wobble;
+                        if (s.y > h + 30) {
+                            s.y = -30;
+                            s.x = Math.random() * w;
+                        }
+                        if (s.x < -30) s.x = w + 30;
+                        if (s.x > w + 30) s.x = -30;
+                        const twinkleVal = 0.55 + 0.45 * Math.sin(time * s.twinkleSpeed + s.twinkle);
+                        const alpha = s.alpha * twinkleVal;
+                        const size = s.size * (0.8 + 0.2 * Math.sin(time * 0.5 + s.phase * 1.3));
+                        const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, size * 3.5);
+                        glow.addColorStop(0, `rgba(255,255,255,${alpha*0.12})`);
+                        glow.addColorStop(0.4, `rgba(230,245,255,${alpha*0.06})`);
+                        glow.addColorStop(1, `rgba(255,255,255,0)`);
+                        ctx.fillStyle = glow;
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, size * 3.5, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+                        ctx.shadowColor = `rgba(255,255,255,${alpha*0.15})`;
+                        ctx.shadowBlur = 18;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        if (size > 4) {
+                            ctx.save();
+                            ctx.translate(s.x, s.y);
+                            ctx.rotate(time * 0.2 + s.phase);
+                            const spikeLen = size * 1.8;
+                            for (let k = 0; k < 6; k++) {
+                                const angle = (k / 6) * Math.PI * 2;
+                                ctx.beginPath();
+                                ctx.moveTo(0, 0);
+                                ctx.lineTo(Math.cos(angle) * spikeLen, Math.sin(angle) * spikeLen);
+                                ctx.strokeStyle = `rgba(255,255,255,${alpha*0.2})`;
+                                ctx.lineWidth = 0.8;
+                                ctx.shadowColor = `rgba(255,255,255,${alpha*0.05})`;
+                                ctx.shadowBlur = 6;
+                                ctx.stroke();
+                                ctx.shadowBlur = 0;
+                            }
+                            ctx.restore();
+                        }
+                    }
+                    animId = requestAnimationFrame(draw);
+                }
+                draw();
+                return function() { if (animId) cancelAnimationFrame(animId); };
+            }
+
+            function initEnergyVortex(canvas, ctx) {
+                const w = canvas.width,
+                    h = canvas.height;
+                let time = 0,
+                    animId = null;
+                const particles = [];
+                const count = 900;
+                for (let i = 0; i < count; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = Math.random() * Math.min(w, h) * 0.75;
+                    particles.push({
+                        angle: angle,
+                        radius: radius,
+                        speed: 0.004 + Math.random() * 0.028,
+                        size: 1.2 + Math.random() * 7,
+                        alpha: 0.15 + Math.random() * 0.6,
+                        offset: Math.random() * 100,
+                        drift: 0.12 + Math.random() * 0.45
+                    });
+                }
+                const rings = 10;
+
+                function draw() {
+                    time += 0.01;
+                    ctx.clearRect(0, 0, w, h);
+                    const cx = w * 0.5,
+                        cy = h * 0.5;
+                    let targetX = cx,
+                        targetY = cy;
+                    if (mouseX > 0) {
+                        targetX = mouseX;
+                        targetY = mouseY;
+                    }
+                    const dx = targetX - cx,
+                        dy = targetY - cy;
+                    const offsetX = dx * 0.22,
+                        offsetY = dy * 0.22;
+                    for (let ring = 0; ring < rings; ring++) {
+                        const r = Math.min(w, h) * 0.08 + ring * 42 + Math.sin(time * 0.35 + ring * 0.9) * 30;
+                        const alpha = 0.04 + 0.07 * (1 - ring / rings) + 0.04 * Math.sin(time * 0.5 + ring * 1.2);
+                        ctx.beginPath();
+                        ctx.arc(cx + offsetX, cy + offsetY, r, 0, Math.PI * 2);
+                        const grad = ctx.createConicGradient(time * 0.2 + ring * 0.6, cx + offsetX, cy + offsetY);
+                        grad.addColorStop(0, `rgba(255,255,255,${alpha*0.5})`);
+                        grad.addColorStop(0.2, `rgba(220,240,255,${alpha*0.85})`);
+                        grad.addColorStop(0.4, `rgba(200,230,255,${alpha*0.7})`);
+                        grad.addColorStop(0.6, `rgba(235,248,255,${alpha*0.8})`);
+                        grad.addColorStop(0.8, `rgba(180,215,255,${alpha*0.7})`);
+                        grad.addColorStop(1, `rgba(255,255,255,${alpha*0.5})`);
+                        ctx.strokeStyle = grad;
+                        ctx.lineWidth = 1.8 + (1 - ring / rings) * 5;
+                        ctx.shadowColor = `rgba(200,230,255,${alpha*0.25})`;
+                        ctx.shadowBlur = 45;
+                        ctx.stroke();
+                        ctx.shadowBlur = 0;
+                    }
+                    for (const p of particles) {
+                        p.angle += p.speed * (1 + 0.25 * Math.sin(time * 0.25 + p.offset));
+                        const rad = p.radius + 35 * Math.sin(time * p.drift + p.offset);
+                        const x = cx + offsetX + Math.cos(p.angle + time * 0.08) * rad;
+                        const y = cy + offsetY + Math.sin(p.angle + time * 0.08) * rad;
+                        const size = p.size * (0.5 + 0.5 * Math.sin(time * 0.7 + p.offset));
+                        const alpha = p.alpha * (0.35 + 0.45 * Math.sin(time * 0.45 + p.offset * 1.2));
+                        ctx.beginPath();
+                        ctx.arc(x, y, size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(255,255,255,${alpha*0.7})`;
+                        ctx.shadowColor = `rgba(200,230,255,${alpha*0.35})`;
+                        ctx.shadowBlur = 28;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        if (size > 3) {
+                            const g2 = ctx.createRadialGradient(x, y, 0, x, y, size * 2.5);
+                            g2.addColorStop(0, `rgba(255,255,255,${alpha*0.15})`);
+                            g2.addColorStop(1, `rgba(200,230,255,0)`);
+                            ctx.fillStyle = g2;
+                            ctx.beginPath();
+                            ctx.arc(x, y, size * 2.5, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+                    }
+                    const gCenter = ctx.createRadialGradient(cx + offsetX, cy + offsetY, 0, cx + offsetX, cy + offsetY,
+                    160);
+                    gCenter.addColorStop(0, `rgba(255,255,255,${0.35+0.18*Math.sin(time*0.4)})`);
+                    gCenter.addColorStop(0.3, `rgba(230,245,255,${0.25+0.12*Math.sin(time*0.6)})`);
+                    gCenter.addColorStop(0.7, `rgba(200,230,255,${0.12+0.08*Math.sin(time*0.8)})`);
+                    gCenter.addColorStop(1, `rgba(200,230,255,0)`);
+                    ctx.fillStyle = gCenter;
+                    ctx.beginPath();
+                    ctx.arc(cx + offsetX, cy + offsetY, 160, 0, Math.PI * 2);
+                    ctx.fill();
+                    animId = requestAnimationFrame(draw);
+                }
+                draw();
+                return function() { if (animId) cancelAnimationFrame(animId); };
+            }
+
+            function initStarShine(canvas, ctx) {
+                const w = canvas.width,
+                    h = canvas.height;
+                let time = 0,
+                    animId = null;
+                const stars = [];
+                const count = 280;
+                for (let i = 0; i < count; i++) {
+                    const size = 0.8 + Math.random() * 3.5;
+                    stars.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        size: size,
+                        baseAlpha: 0.3 + Math.random() * 0.7,
+                        twinkleSpeed: 0.6 + Math.random() * 2.2,
+                        phase: Math.random() * 100,
+                        driftX: (Math.random() - 0.5) * 0.15,
+                        driftY: (Math.random() - 0.5) * 0.15,
+                        hue: 200 + Math.random() * 60,
+                        pulse: 0.5 + Math.random() * 0.5
+                    });
+                }
+                for (let i = 0; i < 12; i++) {
+                    stars.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        size: 4 + Math.random() * 7,
+                        baseAlpha: 0.7 + Math.random() * 0.3,
+                        twinkleSpeed: 0.3 + Math.random() * 0.8,
+                        phase: Math.random() * 100,
+                        driftX: (Math.random() - 0.5) * 0.05,
+                        driftY: (Math.random() - 0.5) * 0.05,
+                        hue: 210 + Math.random() * 40,
+                        pulse: 0.6 + Math.random() * 0.4,
+                        big: true
+                    });
+                }
+
+                function draw() {
+                    time += 0.018;
+                    ctx.clearRect(0, 0, w, h);
+                    const grad = ctx.createRadialGradient(w * 0.5, h * 0.4, 0, w * 0.5, h * 0.4, Math.max(w, h) * 0.6);
+                    grad.addColorStop(0, 'rgba(180,210,255,0.04)');
+                    grad.addColorStop(1, 'rgba(180,210,255,0)');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, 0, w, h);
+                    if (mouseX > 0 && mouseY > 0) {
+                        const g2 = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 200);
+                        g2.addColorStop(0, 'rgba(255,240,220,0.06)');
+                        g2.addColorStop(1, 'rgba(255,240,220,0)');
+                        ctx.fillStyle = g2;
+                        ctx.beginPath();
+                        ctx.arc(mouseX, mouseY, 200, 0, Math.PI * 2);
+                        ctx.fill();
+                        for (const s of stars) {
+                            const dx = s.x - mouseX,
+                                dy = s.y - mouseY;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < 120) {
+                                const pull = 1 - dist / 120;
+                                s.x += dx * pull * 0.008;
+                                s.y += dy * pull * 0.008;
+                            }
+                        }
+                    }
+                    for (const s of stars) {
+                        s.x += s.driftX * 0.3;
+                        s.y += s.driftY * 0.3;
+                        if (s.x < -10) s.x = w + 10;
+                        if (s.x > w + 10) s.x = -10;
+                        if (s.y < -10) s.y = h + 10;
+                        if (s.y > h + 10) s.y = -10;
+                        const twinkle = 0.6 + 0.4 * Math.sin(time * s.twinkleSpeed + s.phase);
+                        const alpha = s.baseAlpha * twinkle * (0.85 + 0.15 * Math.sin(time * 0.3 + s.phase * 0.7));
+                        const size = s.size * (0.85 + 0.15 * Math.sin(time * 0.4 + s.phase * 1.2));
+                        const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, size * 5);
+                        glow.addColorStop(0, `hsla(${s.hue}, 90%, 90%, ${alpha*0.25})`);
+                        glow.addColorStop(0.5, `hsla(${s.hue}, 80%, 80%, ${alpha*0.08})`);
+                        glow.addColorStop(1, `hsla(${s.hue}, 80%, 80%, 0)`);
+                        ctx.fillStyle = glow;
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, size * 5, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
+                        ctx.fillStyle = `hsla(${s.hue}, 80%, 95%, ${alpha})`;
+                        ctx.shadowColor = `hsla(${s.hue}, 80%, 90%, ${alpha*0.3})`;
+                        ctx.shadowBlur = 25;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        if (s.big && size > 3) {
+                            ctx.save();
+                            ctx.translate(s.x, s.y);
+                            ctx.rotate(time * 0.1 + s.phase);
+                            const len = size * 3.5;
+                            ctx.strokeStyle = `hsla(${s.hue}, 70%, 90%, ${alpha*0.25})`;
+                            ctx.lineWidth = 0.8;
+                            for (let k = 0; k < 4; k++) {
+                                const angle = (k / 4) * Math.PI;
+                                ctx.beginPath();
+                                ctx.moveTo(-Math.cos(angle) * len * 0.2, -Math.sin(angle) * len * 0.2);
+                                ctx.lineTo(Math.cos(angle) * len, Math.sin(angle) * len);
+                                ctx.stroke();
+                            }
+                            ctx.restore();
+                        }
+                    }
+                    animId = requestAnimationFrame(draw);
+                }
+                draw();
+                return function() { if (animId) cancelAnimationFrame(animId); };
+            }
+
+            function initDreamyButterfly(canvas, ctx) {
+                const w = canvas.width,
+                    h = canvas.height;
+                const butterflies = [];
+                const emojis = ['🦋', '🦋', '🦋', '🦋', '🦋'];
+                for (let i = 0; i < 15; i++) {
+                    butterflies.push({
+                        x: Math.random() * w,
+                        y: 0.1 * h + Math.random() * 0.8 * h,
+                        size: 30 + Math.random() * 30,
+                        speed: 0.6 + Math.random() * 1.0,
+                        phase: Math.random() * 100,
+                        waveAmp: 40 + Math.random() * 80,
+                        waveFreq: 0.018 + Math.random() * 0.028,
+                        dir: Math.random() > 0.5 ? 1 : -1,
+                        emoji: emojis[i % emojis.length],
+                        trail: [],
+                        hue: 200 + Math.random() * 80,
+                        flutter: Math.random() * 100,
+                        attracted: Math.random() > 0.4
+                    });
+                }
+                let time = 0,
+                    animId = null;
+
+                function draw() {
+                    time += 0.025;
+                    ctx.clearRect(0, 0, w, h);
+                    if (mouseX > 0) {
+                        const grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 140);
+                        grad.addColorStop(0, 'rgba(255,220,150,0.06)');
+                        grad.addColorStop(1, 'rgba(255,220,150,0)');
+                        ctx.fillStyle = grad;
+                        ctx.fillRect(0, 0, w, h);
+                    }
+                    for (const b of butterflies) {
+                        if (mouseX > 0 && b.attracted) {
+                            const dx = mouseX - b.x,
+                                dy = mouseY - b.y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < 250) {
+                                b.x += dx * 0.01;
+                                b.y += dy * 0.01;
+                            }
+                        }
+                        b.x += b.speed * b.dir * 1.8;
+                        b.y += Math.sin(time * b.waveFreq + b.phase) * 0.7;
+                        if (b.x > w + 70) b.x = -70;
+                        if (b.x < -70) b.x = w + 70;
+                        b.trail.push({ x: b.x, y: b.y, life: 40 });
+                        if (b.trail.length > 55) b.trail.shift();
+                        for (const t of b.trail) {
+                            t.life -= 0.5;
+                            if (t.life > 0) {
+                                const r = b.size * 0.14 * (t.life / 40);
+                                ctx.beginPath();
+                                ctx.arc(t.x, t.y, r, 0, Math.PI * 2);
+                                ctx.fillStyle = `hsla(${b.hue+20}, 80%, 70%, ${0.12*(t.life/40)})`;
+                                ctx.shadowColor = `hsla(${b.hue+20}, 80%, 70%, ${0.06*(t.life/40)})`;
+                                ctx.shadowBlur = 30;
+                                ctx.fill();
+                                ctx.shadowBlur = 0;
+                            }
+                        }
+                        b.trail = b.trail.filter(t => t.life > 0);
+                        const scale = 0.7 + 0.3 * Math.sin(time * 2.8 + b.flutter);
+                        const size = b.size * scale;
+                        ctx.font = size + 'px serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        const alpha = 0.7 + 0.3 * Math.sin(time * 1.3 + b.phase);
+                        ctx.shadowColor = `hsla(${b.hue}, 90%, 70%, ${0.5*alpha})`;
+                        ctx.shadowBlur = 45;
+                        ctx.fillStyle = `hsla(${b.hue}, 90%, 80%, ${alpha})`;
+                        ctx.fillText(b.emoji, b.x, b.y);
+                        ctx.shadowBlur = 0;
+                        const glow = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, size * 2.5);
+                        glow.addColorStop(0, `hsla(${b.hue}, 90%, 80%, ${0.12*alpha})`);
+                        glow.addColorStop(1, `hsla(${b.hue}, 90%, 80%, 0)`);
+                        ctx.fillStyle = glow;
+                        ctx.beginPath();
+                        ctx.arc(b.x, b.y, size * 2.5, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    animId = requestAnimationFrame(draw);
+                }
+                draw();
+                return function() { if (animId) cancelAnimationFrame(animId); };
+            }
+
+            function initFlowingBlocks(canvas, ctx) {
+                const w = canvas.width,
+                    h = canvas.height;
+                const blocks = [];
+                const count = 100;
+                for (let i = 0; i < count; i++) {
+                    const size = 15 + Math.random() * 60;
+                    blocks.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        w: size,
+                        h: size * (0.4 + Math.random() * 1.2),
+                        speed: 1.5 + Math.random() * 4.5,
+                        dir: Math.random() > 0.5 ? 1 : -1,
+                        hue: 180 + Math.random() * 130,
+                        alpha: 0.15 + Math.random() * 0.45,
+                        phase: Math.random() * 100,
+                        waveAmp: 15 + Math.random() * 50,
+                        waveFreq: 0.01 + Math.random() * 0.03,
+                        rotate: Math.random() * 0.4,
+                        origX: Math.random() * w,
+                        origY: Math.random() * h
+                    });
+                }
+                let time = 0,
+                    animId = null;
+
+                function draw() {
+                    time += 0.02;
+                    ctx.clearRect(0, 0, w, h);
+                    const attractX = mouseX > 0 ? mouseX : w / 2;
+                    const attractY = mouseY > 0 ? mouseY : h / 2;
+                    for (const b of blocks) {
+                        if (mouseX > 0) {
+                            const dx = b.x - attractX,
+                                dy = b.y - attractY;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < 300 && dist > 10) {
+                                const force = 0.06 * (1 - dist / 300);
+                                b.x += dx * force * 1.2;
+                                b.y += dy * force * 1.2;
+                            } else {
+                                b.x += (b.origX - b.x) * 0.002;
+                                b.y += (b.origY - b.y) * 0.002;
+                            }
+                        } else {
+                            b.x += (b.origX - b.x) * 0.002;
+                            b.y += (b.origY - b.y) * 0.002;
+                        }
+                        b.x += b.speed * b.dir * 0.2;
+                        if (b.x > w + b.w) b.x = -b.w;
+                        if (b.x < -b.w) b.x = w + b.w;
+                        const yOff = Math.sin(time * b.waveFreq + b.phase) * b.waveAmp;
+                        const rot = Math.sin(time * 0.6 + b.phase) * b.rotate;
+                        const alpha = b.alpha * (0.7 + 0.3 * Math.sin(time * 0.7 + b.phase * 1.3));
+                        ctx.save();
+                        ctx.translate(b.x + b.w / 2, b.y + yOff + b.h / 2);
+                        ctx.rotate(rot);
+                        ctx.shadowColor = `hsla(${b.hue+20}, 90%, 70%, ${alpha*0.35})`;
+                        ctx.shadowBlur = 35;
+                        ctx.fillStyle = `hsla(${b.hue}, 80%, 70%, ${alpha})`;
+                        ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+                        ctx.shadowBlur = 0;
+                        ctx.strokeStyle = `hsla(${b.hue+40}, 90%, 85%, ${alpha*0.5})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeRect(-b.w / 2, -b.h / 2, b.w, b.h);
+                        ctx.restore();
+                    }
+                    animId = requestAnimationFrame(draw);
+                }
+                draw();
+                return function() { if (animId) cancelAnimationFrame(animId); };
+            }
+
+            function initTechMatrix(canvas, ctx) {
+                const w = canvas.width,
+                    h = canvas.height;
+                let time = 0,
+                    animId = null;
+                const gridSize = 35;
+                const cols = Math.ceil(w / gridSize) + 3;
+                const rows = Math.ceil(h / gridSize) + 3;
+                const dots = [];
+                for (let i = 0; i < 200; i++) {
+                    dots.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        speed: 0.5 + Math.random() * 1.8,
+                        size: 2 + Math.random() * 6,
+                        hue: 180 + Math.random() * 80,
+                        phase: Math.random() * 100,
+                        dirX: (Math.random() - 0.5) * 2,
+                        dirY: (Math.random() - 0.5) * 2
+                    });
+                }
+                const scanLines = [];
+                for (let i = 0; i < 12; i++) {
+                    scanLines.push({
+                        y: Math.random() * h,
+                        speed: 0.3 + Math.random() * 0.8,
+                        hue: 190 + Math.random() * 70,
+                        alpha: 0.06 + Math.random() * 0.15,
+                        width: 40 + Math.random() * 80
+                    });
+                }
+
+                function draw() {
+                    time += 0.025;
+                    ctx.clearRect(0, 0, w, h);
+                    if (mouseX > 0) {
+                        const grad = ctx.createLinearGradient(mouseX, 0, mouseX, h);
+                        grad.addColorStop(0, 'rgba(100,200,255,0.03)');
+                        grad.addColorStop(0.3, 'rgba(100,200,255,0.08)');
+                        grad.addColorStop(0.7, 'rgba(100,200,255,0.08)');
+                        grad.addColorStop(1, 'rgba(100,200,255,0.03)');
+                        ctx.fillStyle = grad;
+                        ctx.fillRect(mouseX - 20, 0, 40, h);
+                        const glow = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 220);
+                        glow.addColorStop(0, 'rgba(100,200,255,0.06)');
+                        glow.addColorStop(1, 'rgba(100,200,255,0)');
+                        ctx.fillStyle = glow;
+                        ctx.beginPath();
+                        ctx.arc(mouseX, mouseY, 220, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    for (let c = 0; c < cols; c++) {
+                        const x = c * gridSize + (time * 12) % gridSize;
+                        const alpha = 0.06 + 0.05 * Math.sin(time * 0.3 + c * 0.5);
+                        ctx.beginPath();
+                        ctx.moveTo(x, 0);
+                        ctx.lineTo(x, h);
+                        ctx.strokeStyle = `rgba(60,180,255,${alpha})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                    for (let r = 0; r < rows; r++) {
+                        const y = r * gridSize + (time * 8) % gridSize;
+                        const alpha = 0.06 + 0.05 * Math.sin(time * 0.4 + r * 0.6);
+                        ctx.beginPath();
+                        ctx.moveTo(0, y);
+                        ctx.lineTo(w, y);
+                        ctx.strokeStyle = `rgba(60,180,255,${alpha})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                    for (let c = 0; c < cols; c++) {
+                        for (let r = 0; r < rows; r++) {
+                            const x = c * gridSize + (time * 12) % gridSize;
+                            const y = r * gridSize + (time * 8) % gridSize;
+                            const alpha = 0.05 + 0.06 * Math.sin(time * 0.8 + c * 1.3 + r * 0.9);
+                            ctx.beginPath();
+                            ctx.arc(x, y, 2, 0, Math.PI * 2);
+                            ctx.fillStyle = `rgba(100,200,255,${alpha})`;
+                            ctx.shadowColor = `rgba(100,200,255,${alpha*0.3})`;
+                            ctx.shadowBlur = 14;
+                            ctx.fill();
+                            ctx.shadowBlur = 0;
+                        }
+                    }
+                    for (const d of dots) {
+                        d.x += d.dirX * d.speed * 0.8;
+                        d.y += d.dirY * d.speed * 0.8;
+                        if (d.x < 0) d.x = w;
+                        if (d.x > w) d.x = 0;
+                        if (d.y < 0) d.y = h;
+                        if (d.y > h) d.y = 0;
+                        const alpha = 0.5 + 0.4 * Math.sin(time * 0.5 + d.phase);
+                        const size = d.size * (0.6 + 0.4 * Math.sin(time * 0.8 + d.phase));
+                        ctx.beginPath();
+                        ctx.arc(d.x, d.y, size, 0, Math.PI * 2);
+                        ctx.fillStyle = `hsla(${d.hue}, 90%, 80%, ${alpha*0.7})`;
+                        ctx.shadowColor = `hsla(${d.hue}, 90%, 80%, ${alpha*0.35})`;
+                        ctx.shadowBlur = 28;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        for (let j = 0; j < 4; j++) {
+                            const tx = d.x - d.dirX * d.speed * 8 * (j + 1);
+                            const ty = d.y - d.dirY * d.speed * 8 * (j + 1);
+                            const ta = alpha * 0.12 * (1 - j / 4);
+                            ctx.beginPath();
+                            ctx.arc(tx, ty, size * 0.3 * (1 - j / 4), 0, Math.PI * 2);
+                            ctx.fillStyle = `hsla(${d.hue}, 90%, 80%, ${ta})`;
+                            ctx.fill();
+                        }
+                    }
+                    for (const s of scanLines) {
+                        s.y += s.speed;
+                        if (s.y > h) s.y = 0;
+                        const grad = ctx.createLinearGradient(0, s.y - s.width / 2, 0, s.y + s.width / 2);
+                        grad.addColorStop(0, `rgba(60,180,255,0)`);
+                        grad.addColorStop(0.4, `hsla(${s.hue}, 90%, 70%, ${s.alpha*0.6})`);
+                        grad.addColorStop(0.6, `hsla(${s.hue+20}, 90%, 85%, ${s.alpha})`);
+                        grad.addColorStop(1, `rgba(60,180,255,0)`);
+                        ctx.fillStyle = grad;
+                        ctx.fillRect(0, s.y - s.width / 2, w, s.width);
+                    }
+                    animId = requestAnimationFrame(draw);
+                }
+                draw();
+                return function() { if (animId) cancelAnimationFrame(animId); };
+            }
+
+            // ---- 特效映射 ----
+            const effects = [
+                initBlizzard,
+                initEnergyVortex,
+                initStarShine,
+                initDreamyButterfly,
+                initFlowingBlocks,
+                initTechMatrix
+            ];
+            const activeEffects = [];
+            let currentEffectIndex = 0;
+
+            // ---- 启动特效（手机端不启动） ----
+            function startEffect(index) {
+                if (isMobile()) {
+                    if (activeEffects[index]) {
+                        activeEffects[index]();
+                        activeEffects[index] = null;
+                    }
+                    return;
+                }
+                if (activeEffects[index]) {
+                    activeEffects[index]();
+                    activeEffects[index] = null;
+                }
+                const canvas = canvases[index];
+                const ctx = ctxs[index];
+                if (canvas && ctx && effects[index]) {
+                    const rect = canvas.parentElement.getBoundingClientRect();
+                    canvas.width = rect.width || window.innerWidth;
+                    canvas.height = rect.height || 600;
+                    activeEffects[index] = effects[index](canvas, ctx);
+                }
+                currentEffectIndex = index;
+            }
+
+            // ---- 切换幻灯片 ----
+            function goTo(index, fromUser = true) {
+                if (isTransitioning || index === current) return;
+                isTransitioning = true;
+                if (activeEffects[current]) {
+                    activeEffects[current]();
+                    activeEffects[current] = null;
+                }
+                slides.style.transition = 'transform 0.9s cubic-bezier(0.65, 0, 0.35, 1)';
+                slides.style.transform = 'translateX(-' + (index * 100) + '%)';
+                slideItems.forEach((el, i) => {
+                    el.classList.toggle('active', i === index);
+                });
+                dots.forEach((d, i) => d.classList.toggle('active', i === index));
+                current = index;
+                setTimeout(() => {
+                    startEffect(index);
+                    isTransitioning = false;
+                }, 300);
+                if (fromUser) {
+                    clearInterval(timer);
+                    startAuto();
+                }
+            }
+
+            function next() { goTo((current + 1) % total, true); }
+
+            function prev() { goTo((current - 1 + total) % total, true); }
+
+            function startAuto() {
+                clearInterval(timer);
+                timer = setInterval(next, 6000);
+            }
+
+            // ---- 事件绑定 ----
+            dots.forEach((dot, i) => {
+                dot.addEventListener('click', function() {
+                    clearInterval(timer);
+                    goTo(i, true);
+                });
+            });
+            prevBtn.addEventListener('click', function() { clearInterval(timer);
+                prev(); });
+            nextBtn.addEventListener('click', function() { clearInterval(timer);
+                next(); });
+
+            let startX = 0;
+            hero.addEventListener('touchstart', function(e) {
+                startX = e.touches[0].clientX;
+            });
+            hero.addEventListener('touchend', function(e) {
+                const diff = startX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 40) {
+                    clearInterval(timer);
+                    if (diff > 0) next();
+                    else prev();
+                    startAuto();
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') { clearInterval(timer);
+                    next();
+                    startAuto(); }
+                if (e.key === 'ArrowLeft') { clearInterval(timer);
+                    prev();
+                    startAuto(); }
+            });
+
+            // ---- 窗口resize：手机/桌面切换时动态控制动画 ----
+            window.addEventListener('resize', function() {
+                resizeCanvases();
+                if (isMobile()) {
+                    for (let i = 0; i < activeEffects.length; i++) {
+                        if (activeEffects[i]) {
+                            activeEffects[i]();
+                            activeEffects[i] = null;
+                        }
+                    }
+                } else {
+                    startEffect(current);
+                }
+            });
+
+            // ---- 初始化 ----
+            startEffect(0);
+            startAuto();
+
+            // ============================================================
+            //  解决方案：卫星飞入效果
+            // ============================================================
+            const solutionsSection = document.getElementById('solutions');
+            const flyContainer = document.getElementById('satelliteFlyContainer');
+            let satelliteTimer = null;
+
+            function createSatellite(targetX, targetY) {
+                const el = document.createElement('div');
+                el.className = 'satellite-fly';
+                const startX = Math.random() * window.innerWidth;
+                const startY = -30 - Math.random() * 60;
+                el.style.left = startX + 'px';
+                el.style.top = startY + 'px';
+                el.style.opacity = '1';
+                flyContainer.appendChild(el);
+                const duration = 1200 + Math.random() * 600;
+                const startTime = performance.now();
+                const dx = targetX - startX;
+                const dy = targetY - startY;
+                const cpX = startX + dx * 0.2 + (Math.random() - 0.5) * 200;
+                const cpY = startY + dy * 0.2 - 80 - Math.random() * 120;
+
+                function animate(now) {
+                    const progress = Math.min((now - startTime) / duration, 1);
+                    const ease = 1 - Math.pow(1 - progress, 3);
+                    const x = (1 - ease) * (1 - ease) * startX + 2 * (1 - ease) * ease * cpX + ease * ease * targetX;
+                    const y = (1 - ease) * (1 - ease) * startY + 2 * (1 - ease) * ease * cpY + ease * ease * targetY;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                    const scale = 1 + 0.5 * ease;
+                    el.style.transform = `scale(${scale}) rotate(${ease*180}deg)`;
+                    el.style.opacity = 1 - ease * 0.8;
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        el.remove();
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+
+            solutionsSection.addEventListener('mouseenter', function() {
+                if (satelliteTimer) clearInterval(satelliteTimer);
+                satelliteTimer = setInterval(function() {
+                    const rect = solutionsSection.getBoundingClientRect();
+                    const mx = rect.left + Math.random() * rect.width;
+                    const my = rect.top + Math.random() * rect.height;
+                    createSatellite(mx, my);
+                }, 300);
+            });
+            solutionsSection.addEventListener('mouseleave', function() {
+                if (satelliteTimer) {
+                    clearInterval(satelliteTimer);
+                    satelliteTimer = null;
+                }
+            });
+
+            // ============================================================
+            //  联系我们：星闪动画
+            // ============================================================
+            const contactStarsCanvas = document.getElementById('contactStars');
+            if (contactStarsCanvas) {
+                const contactCtx = contactStarsCanvas.getContext('2d');
+                let contactWidth = contactStarsCanvas.parentElement.offsetWidth;
+                let contactHeight = contactStarsCanvas.parentElement.offsetHeight;
+                contactStarsCanvas.width = contactWidth;
+                contactStarsCanvas.height = contactHeight;
+                const starCount = 150;
+                const starList = [];
+                for (let i = 0; i < starCount; i++) {
+                    starList.push({
+                        x: Math.random() * contactWidth,
+                        y: Math.random() * contactHeight,
+                        size: 1 + Math.random() * 3,
+                        baseAlpha: 0.2 + Math.random() * 0.6,
+                        speed: 0.4 + Math.random() * 1.2,
+                        phase: Math.random() * 100,
+                        hue: 200 + Math.random() * 60
+                    });
+                }
+                let contactTime = 0;
+
+                function drawStars() {
+                    contactTime += 0.02;
+                    contactCtx.clearRect(0, 0, contactWidth, contactHeight);
+                    for (const s of starList) {
+                        const alpha = s.baseAlpha * (0.5 + 0.5 * Math.sin(contactTime * s.speed + s.phase));
+                        const size = s.size * (0.8 + 0.2 * Math.sin(contactTime * 0.6 + s.phase * 1.3));
+                        const grad = contactCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, size * 4);
+                        grad.addColorStop(0, `hsla(${s.hue}, 80%, 90%, ${alpha*0.3})`);
+                        grad.addColorStop(1, `hsla(${s.hue}, 80%, 90%, 0)`);
+                        contactCtx.fillStyle = grad;
+                        contactCtx.beginPath();
+                        contactCtx.arc(s.x, s.y, size * 4, 0, Math.PI * 2);
+                        contactCtx.fill();
+                        contactCtx.beginPath();
+                        contactCtx.arc(s.x, s.y, size, 0, Math.PI * 2);
+                        contactCtx.fillStyle = `rgba(255,255,255,${alpha})`;
+                        contactCtx.shadowColor = `rgba(200,230,255,${alpha*0.2})`;
+                        contactCtx.shadowBlur = 15;
+                        contactCtx.fill();
+                        contactCtx.shadowBlur = 0;
+                    }
+                    requestAnimationFrame(drawStars);
+                }
+                drawStars();
+                window.addEventListener('resize', function() {
+                    const parent = contactStarsCanvas.parentElement;
+                    contactWidth = parent.offsetWidth;
+                    contactHeight = parent.offsetHeight;
+                    contactStarsCanvas.width = contactWidth;
+                    contactStarsCanvas.height = contactHeight;
+                });
+            }
+
+            // ============================================================
+            //  技术服务：循环动画
+            // ============================================================
+            const servicesCycleCanvas = document.getElementById('servicesCycle');
+            if (servicesCycleCanvas) {
+                const servicesCtx = servicesCycleCanvas.getContext('2d');
+                let servicesWidth = servicesCycleCanvas.parentElement.offsetWidth;
+                let servicesHeight = servicesCycleCanvas.parentElement.offsetHeight;
+                servicesCycleCanvas.width = servicesWidth;
+                servicesCycleCanvas.height = servicesHeight;
+                let servicesTime = 0;
+                const particlesCycle = [];
+                for (let i = 0; i < 120; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = 50 + Math.random() * Math.min(servicesWidth, servicesHeight) * 0.4;
+                    particlesCycle.push({
+                        angle: angle,
+                        radius: radius,
+                        speed: 0.003 + Math.random() * 0.015,
+                        size: 1.5 + Math.random() * 4,
+                        phase: Math.random() * 100,
+                        hue: 190 + Math.random() * 60,
+                        alpha: 0.2 + Math.random() * 0.5
+                    });
+                }
+
+                function drawCycle() {
+                    servicesTime += 0.012;
+                    servicesCtx.clearRect(0, 0, servicesWidth, servicesHeight);
+                    for (let i = 0; i < 3; i++) {
+                        const cx = servicesWidth * (0.3 + 0.4 * i);
+                        const cy = servicesHeight * (0.3 + 0.4 * (i % 2));
+                        const r = 120 + 60 * Math.sin(servicesTime * 0.2 + i);
+                        const grad = servicesCtx.createConicGradient(servicesTime * 0.1 + i * 1.5, cx, cy);
+                        grad.addColorStop(0, `rgba(100,200,255,0.02)`);
+                        grad.addColorStop(0.3, `rgba(100,200,255,0.06)`);
+                        grad.addColorStop(0.7, `rgba(150,220,255,0.06)`);
+                        grad.addColorStop(1, `rgba(100,200,255,0.02)`);
+                        servicesCtx.beginPath();
+                        servicesCtx.arc(cx, cy, r + 30 * Math.sin(servicesTime * 0.15 + i * 0.7), 0, Math.PI * 2);
+                        servicesCtx.strokeStyle = grad;
+                        servicesCtx.lineWidth = 1.5;
+                        servicesCtx.stroke();
+                    }
+                    for (const p of particlesCycle) {
+                        p.angle += p.speed * (1 + 0.2 * Math.sin(servicesTime * 0.2 + p.phase));
+                        const rad = p.radius + 20 * Math.sin(servicesTime * 0.1 + p.phase);
+                        const x = servicesWidth / 2 + Math.cos(p.angle + servicesTime * 0.05) * rad;
+                        const y = servicesHeight / 2 + Math.sin(p.angle + servicesTime * 0.05) * rad;
+                        const alpha = p.alpha * (0.6 + 0.4 * Math.sin(servicesTime * 0.4 + p.phase));
+                        const size = p.size * (0.7 + 0.3 * Math.sin(servicesTime * 0.5 + p.phase));
+                        servicesCtx.beginPath();
+                        servicesCtx.arc(x, y, size, 0, Math.PI * 2);
+                        servicesCtx.fillStyle = `hsla(${p.hue}, 80%, 80%, ${alpha*0.5})`;
+                        servicesCtx.shadowColor = `hsla(${p.hue}, 80%, 80%, ${alpha*0.2})`;
+                        servicesCtx.shadowBlur = 20;
+                        servicesCtx.fill();
+                        servicesCtx.shadowBlur = 0;
+                    }
+                    requestAnimationFrame(drawCycle);
+                }
+                drawCycle();
+                window.addEventListener('resize', function() {
+                    const parent = servicesCycleCanvas.parentElement;
+                    servicesWidth = parent.offsetWidth;
+                    servicesHeight = parent.offsetHeight;
+                    servicesCycleCanvas.width = servicesWidth;
+                    servicesCycleCanvas.height = servicesHeight;
+                });
+            }
+
+            // ---- 新闻轮播 ----
+            const track = document.getElementById('newsTrack');
+            const newsPrev = document.getElementById('newsPrev');
+            const newsNext = document.getElementById('newsNext');
+            const newsCards = track.querySelectorAll('.news-card');
+            let newsIndex = 0;
+            let visibleCount = 3;
+            let cardWidth = 0;
+
+            function updateNewsCarousel() {
+                if (window.innerWidth <= 768) visibleCount = 1;
+                else if (window.innerWidth <= 1024) visibleCount = 2;
+                else visibleCount = 3;
+                const totalCards = newsCards.length;
+                const maxIndex = Math.max(0, totalCards - visibleCount);
+                if (newsIndex > maxIndex) newsIndex = maxIndex;
+                const containerWidth = track.parentElement.offsetWidth;
+                const gap = 24;
+                const cardWidthCalc = (containerWidth - gap * (visibleCount - 1)) / visibleCount;
+                cardWidth = cardWidthCalc + gap;
+                track.style.transform = 'translateX(-' + (newsIndex * cardWidth) + 'px)';
+            }
+
+            function newsNextFn() {
+                const totalCards = newsCards.length;
+                const maxIndex = Math.max(0, totalCards - visibleCount);
+                if (newsIndex < maxIndex) newsIndex++;
+                else newsIndex = 0;
+                updateNewsCarousel();
+            }
+
+            function newsPrevFn() {
+                const totalCards = newsCards.length;
+                const maxIndex = Math.max(0, totalCards - visibleCount);
+                if (newsIndex > 0) newsIndex--;
+                else newsIndex = maxIndex;
+                updateNewsCarousel();
+            }
+
+            newsPrev.addEventListener('click', newsPrevFn);
+            newsNext.addEventListener('click', newsNextFn);
+            window.addEventListener('resize', function() {
+                updateNewsCarousel();
+                resizeCanvases();
+            });
+            let newsTimer = setInterval(newsNextFn, 6000);
+            const newsWrap = document.querySelector('.news-carousel-wrap');
+            newsWrap.addEventListener('mouseenter', function() { clearInterval(newsTimer); });
+            newsWrap.addEventListener('mouseleave', function() { newsTimer = setInterval(newsNextFn, 6000); });
+            setTimeout(updateNewsCarousel, 100);
+
+            // ---- 搜索框 ----
+            const searchInput = document.querySelector('.search-box input');
+            if (searchInput) {
+                searchInput.setAttribute('required', 'required');
+                searchInput.setAttribute('oninvalid', "setCustomValidity('请输入搜索关键词')");
+                searchInput.setAttribute('oninput', "setCustomValidity('')");
+            }
+
+            
+
+            // ---- 导航滚动高亮 ----
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-desktop > li > a');
+            window.addEventListener('scroll', function() {
+                let currentId = '';
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 120) currentId = section.id;
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + currentId) link.classList.add('active');
+                });
+            });
+
+            // ---- 产品分类切换 ----
+            const catLinks = document.querySelectorAll('.product-categories a');
+            catLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    catLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // ---- 统计数字滚动 ----
+            const statItems = document.querySelectorAll('.about-stats .stat');
+            let countersAnimated = false;
+
+            function animateCounters() {
+                if (countersAnimated) return;
+                const statsSection = document.querySelector('#about');
+                if (!statsSection) return;
+                const rect = statsSection.getBoundingClientRect();
+                if (rect.top > window.innerHeight - 100) return;
+                countersAnimated = true;
+                statItems.forEach(stat => {
+                    const target = parseFloat(stat.dataset.target);
+                    const counterEl = stat.querySelector('.counter');
+                    if (!counterEl) return;
+                    const isFloat = target % 1 !== 0;
+                    const duration = 1800;
+                    const startTime = performance.now();
+
+                    function updateCounter(time) {
+                        const elapsed = time - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const ease = 1 - Math.pow(1 - progress, 3);
+                        const value = ease * target;
+                        if (isFloat) counterEl.textContent = value.toFixed(1);
+                        else counterEl.textContent = Math.round(value);
+                        if (progress < 1) requestAnimationFrame(updateCounter);
+                        else {
+                            if (isFloat) counterEl.textContent = target.toFixed(1);
+                            else counterEl.textContent = target;
+                        }
+                    }
+                    requestAnimationFrame(updateCounter);
+                });
+            }
+            window.addEventListener('scroll', function() { if (!countersAnimated) animateCounters(); });
+            window.addEventListener('load', function() { setTimeout(animateCounters, 300); });
+
+            // ---- 鼠标光晕 ----
+            const glowConfigs = [
+                { id: 'aboutGlow', selector: '#about' },
+                { id: 'solutionsGlow', selector: '#solutions' },
+                { id: 'servicesGlow', selector: '#services' },
+                { id: 'partnersGlow', selector: '#partners' },
+                { id: 'contactGlow', selector: '#contact' }
+            ];
+            glowConfigs.forEach(cfg => {
+                const el = document.getElementById(cfg.id);
+                const parent = document.querySelector(cfg.selector);
+                if (el && parent) {
+                    parent.addEventListener('mouseenter', function() { el.classList.add('active'); });
+                    parent.addEventListener('mouseleave', function() { el.classList.remove('active'); });
+                    parent.addEventListener('mousemove', function(e) {
+                        const rect = parent.getBoundingClientRect();
+                        el.style.left = (e.clientX - rect.left) + 'px';
+                        el.style.top = (e.clientY - rect.top) + 'px';
+                    });
+                }
+            });
+
+            // ---- 技术服务卡片鼠标跟踪 ----
+            const serviceItems = document.querySelectorAll('.service-item');
+            serviceItems.forEach(item => {
+                item.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    this.style.setProperty('--mouse-x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+                    this.style.setProperty('--mouse-y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+                });
+            });
+
+        })();
+    </script>
+</body>
+</html>

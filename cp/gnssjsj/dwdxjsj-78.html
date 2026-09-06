@@ -1,0 +1,2519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>T31 高精度组合导航接收机 - 天星北斗科技（成都）有限公司</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+<style>
+        /* ===== 全局重置 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary: #0a2b5c;
+            --primary-light: #1a4f8a;
+            --primary-dark: #061a3a;
+            --accent: #2d7dd2;
+            --accent-glow: #4a8fe0;
+            --bg-body: #f0f4fa;
+            --bg-white: #ffffff;
+            --bg-light: #e8eef6;
+            --text-primary: #0a1e3a;
+            --text-secondary: #3d5670;
+            --text-muted: #7a91aa;
+            --border: #dce5ef;
+            --shadow-sm: 0 2px 16px rgba(10, 30, 60, 0.06);
+            --shadow-md: 0 8px 40px rgba(10, 30, 60, 0.10);
+            --shadow-lg: 0 20px 60px rgba(10, 30, 60, 0.14);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --transition: 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 72px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== 导航 ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 0;
+            background: rgba(10, 30, 60, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: var(--transition);
+            height: 72px;
+            display: flex;
+            align-items: center;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .logo a {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 38px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            list-style: none;
+            height: 72px;
+        }
+        .nav-desktop>li {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .nav-desktop>li>a {
+            padding: 0 16px;
+            font-size: 0.80rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+            letter-spacing: 0.2px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+        .nav-desktop>li>a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+        .nav-desktop>li>a:hover::after,
+        .nav-desktop>li>a.active::after {
+            width: 60%;
+        }
+        .nav-desktop>li>a:hover {
+            color: #fff;
+        }
+        .nav-desktop>li>a.active {
+            color: #fff;
+        }
+        .nav-desktop>li>a i {
+            font-size: 0.45rem;
+            margin-left: 4px;
+            opacity: 0.6;
+        }
+
+        .nav-desktop .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background: rgba(15, 35, 70, 0.98);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            min-width: 190px;
+            padding: 8px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            list-style: none;
+            z-index: 100;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .nav-desktop>li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        .dropdown a {
+            display: block;
+            padding: 6px 20px;
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.7);
+            transition: 0.2s;
+            white-space: nowrap;
+            border-left: 2px solid transparent;
+        }
+        .dropdown a:hover {
+            background: rgba(45, 125, 210, 0.15);
+            color: #fff;
+            border-left-color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .nav-right .lang a {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 0 3px;
+            transition: 0.2s;
+        }
+        .nav-right .lang a.active {
+            color: #fff;
+            font-weight: 600;
+        }
+        .nav-right .lang .sep {
+            color: rgba(255, 255, 255, 0.2);
+        }
+        .nav-right .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 2px 6px 2px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: var(--transition);
+        }
+        .nav-right .search-box:focus-within {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.14);
+        }
+        .nav-right .search-box input {
+            background: none;
+            border: none;
+            font-size: 0.75rem;
+            padding: 5px 0;
+            outline: none;
+            width: 70px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .nav-right .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+        }
+        .nav-right .search-box button {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: 0.2s;
+        }
+        .nav-right .search-box button:hover {
+            color: #fff;
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .nav-mobile {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            background: rgba(10, 30, 60, 0.98);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), padding 0.5s ease;
+            list-style: none;
+            position: absolute;
+            top: 72px;
+            left: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .nav-mobile.open {
+            max-height: 900px;
+            padding: 12px 0 20px 0;
+        }
+        .nav-mobile>li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .nav-mobile>li>a {
+            display: block;
+            padding: 12px 24px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+        .nav-mobile .sub-mobile {
+            padding-left: 24px;
+            display: none;
+            list-style: none;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .nav-mobile .sub-mobile.open {
+            display: block;
+        }
+        .nav-mobile .sub-mobile a {
+            display: block;
+            padding: 8px 24px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.82rem;
+            border-left: 2px solid transparent;
+        }
+        .nav-mobile .sub-mobile a:hover {
+            color: #fff;
+            border-left-color: var(--accent);
+        }
+        .nav-mobile .mobile-parent i {
+            float: right;
+            transition: 0.3s;
+        }
+        .nav-mobile .mobile-parent.open i {
+            transform: rotate(180deg);
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            height: 600px;
+            max-height: 70vh;
+            position: relative;
+            overflow: hidden;
+            background: var(--primary-dark);
+            cursor: default;
+        }
+        .hero-slides {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .hero-slide {
+            flex: 0 0 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(6, 26, 58, 0.15);
+            z-index: 1;
+        }
+        .hero-effect {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .hero-effect canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .hero-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .hero-controls span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        .hero-controls span.active {
+            background: #fff;
+            width: 32px;
+            border-radius: 6px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+        .hero-controls span:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .hero-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            pointer-events: none;
+        }
+        .hero-arrows button {
+            pointer-events: auto;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-arrows button:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: scale(1.08);
+        }
+
+        /* ===== 通用标题 ===== */
+        .section-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(45, 125, 210, 0.10);
+            padding: 4px 16px;
+            border-radius: 30px;
+            margin-bottom: 8px;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+        .section-title span {
+            color: var(--accent);
+        }
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+        }
+        .section-pad {
+            padding: 72px 0;
+        }
+        .bg-white {
+            background: var(--bg-white);
+        }
+        .bg-light {
+            background: var(--bg-light);
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .section-head .section-desc {
+            margin: 0 auto;
+        }
+        .section-head-left {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .section-head-left .right a {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .section-head-left .right a:hover {
+            gap: 10px;
+            color: var(--primary-light);
+        }
+
+        /* ============================================================
+           1. 产品中心
+           ============================================================ */
+        .product-card {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 24px 20px 22px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+            border-radius: var(--radius);
+        }
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-glow));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 2;
+        }
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        .product-card:hover::after {
+            opacity: 1;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(45, 125, 210, 0.15);
+            border-color: var(--accent);
+        }
+        .product-card:hover .img img {
+            transform: scale(1.06);
+        }
+        .product-card:hover h4 {
+            color: var(--accent);
+        }
+        .product-card:hover .more {
+            color: var(--accent);
+            gap: 10px;
+        }
+        .product-card:hover .tag {
+            background: rgba(45, 125, 210, 0.20);
+            color: var(--accent);
+        }
+        .product-card>* {
+            position: relative;
+            z-index: 1;
+        }
+        .product-card .img {
+            aspect-ratio: 3 / 2;
+            width: 100%;
+            background: var(--bg-light);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 14px;
+            transition: background 0.4s ease;
+        }
+        .product-card .img img {
+            max-width: 85%;
+            max-height: 85%;
+            object-fit: contain;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .product-card .tag {
+            display: inline-block;
+            font-size: 0.55rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(45, 125, 210, 0.10);
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            transition: all 0.4s ease;
+        }
+        .product-card h4 {
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+        .product-card p {
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+            transition: color 0.3s ease;
+        }
+        .product-card .more {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 12px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .product-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .product-categories a {
+            padding: 6px 18px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-radius: 30px;
+            transition: var(--transition);
+            background: var(--bg-body);
+            border: 1px solid transparent;
+        }
+        .product-categories a:hover,
+        .product-categories a.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(45, 125, 210, 0.25);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        /* ============================================================
+           2. 解决方案
+           ============================================================ */
+        #solutions {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #e8f0f8 0%, #d5e3f0 100%);
+        }
+        #solutions::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('http://www.bxnav.cn/static/image/part3_img1.png') center/cover no-repeat;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #solutions .bg-shapes {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #solutions .bg-shapes .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: orbFloat 8s infinite alternate ease-in-out;
+            opacity: 0.6;
+        }
+        #solutions .bg-shapes .orb:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            top: -150px;
+            right: -100px;
+            background: rgba(45, 125, 210, 0.25);
+            animation-duration: 10s;
+        }
+        #solutions .bg-shapes .orb:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -120px;
+            left: -80px;
+            background: rgba(45, 125, 210, 0.20);
+            animation-duration: 12s;
+            animation-delay: 1s;
+        }
+        #solutions .bg-shapes .orb:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 40%;
+            left: 30%;
+            background: rgba(45, 125, 210, 0.15);
+            animation-duration: 9s;
+            animation-delay: 2s;
+        }
+        #solutions .bg-shapes .orb:nth-child(4) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 60%;
+            background: rgba(45, 125, 210, 0.18);
+            animation-duration: 11s;
+            animation-delay: 0.5s;
+        }
+        #solutions .bg-shapes .orb:nth-child(5) {
+            width: 200px;
+            height: 200px;
+            bottom: 20%;
+            right: 20%;
+            background: rgba(45, 125, 210, 0.20);
+            animation-duration: 7s;
+            animation-delay: 3s;
+        }
+        @keyframes orbFloat {
+            0% { transform: translate(0,0) scale(1); }
+            100% { transform: translate(80px, -60px) scale(1.3); }
+        }
+        #solutions .cursor-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.08), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+            filter: blur(30px);
+        }
+        #solutions .cursor-glow.active {
+            opacity: 1;
+        }
+
+        #solutions .satellite-fly-container {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .satellite-fly {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #8bbff5, #2d7dd2);
+            box-shadow: 0 0 30px rgba(45,125,210,0.8);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .satellite-fly::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(to right, rgba(45,125,210,0.6), transparent);
+            transform: translate(-50%, -50%) rotate(-20deg);
+            transform-origin: left center;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 4px rgba(255,255,255,0.5);
+            z-index: 2;
+            animation: shootStar linear infinite;
+            opacity: 0;
+        }
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 80px;
+            height: 1.5px;
+            background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+            transform: translateY(-50%);
+        }
+        @keyframes shootStar {
+            0% { transform: translate(0,0) rotate(-35deg); opacity:1; }
+            70% { opacity:1; }
+            100% { transform: translate(-500px, 320px) rotate(-35deg); opacity:0; }
+        }
+
+        .satellite {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #8bbff5, rgba(45,125,210,0.3));
+            border-radius: 50%;
+            box-shadow: 0 0 20px 6px rgba(45,125,210,0.4);
+            z-index: 2;
+            animation: satOrbit 14s linear infinite;
+        }
+        .satellite::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            transform: translate(-50%,-50%);
+        }
+        @keyframes satOrbit {
+            0% { transform: rotate(0deg) translateX(300px) rotate(0deg); opacity:0.8; }
+            50% { opacity:1; }
+            100% { transform: rotate(360deg) translateX(300px) rotate(-360deg); opacity:0.8; }
+        }
+
+        #solutions .container {
+            position: relative;
+            z-index: 3;
+        }
+        #solutions .section-title {
+            color: var(--text-primary);
+        }
+        #solutions .section-desc {
+            color: var(--text-secondary);
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .solution-card {
+            background: rgba(255,255,255,0.80);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.9);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+        }
+        .solution-card:hover::before {
+            opacity: 1;
+        }
+        .solution-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 56px rgba(45, 125, 210, 0.15);
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.92);
+        }
+        .solution-card:hover .icon {
+            transform: scale(1.10) rotate(-4deg);
+            background: rgba(45, 125, 210, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 8px 28px rgba(45, 125, 210, 0.15);
+        }
+        .solution-card:hover .icon .fallback {
+            transform: scale(1.08);
+        }
+        .solution-card:hover h4 {
+            color: var(--accent);
+        }
+        .solution-card:hover .link {
+            color: var(--accent);
+            gap: 12px;
+        }
+        .solution-card>* {
+            position: relative;
+            z-index: 1;
+        }
+        .solution-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(45,125,210,0.20), rgba(45,125,210,0.06));
+            border: 1px solid rgba(45,125,210,0.10);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .solution-card .icon .fallback {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .solution-card h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+        }
+        .solution-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            flex: 1;
+        }
+        .solution-card .link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            align-self: flex-start;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        /* ============================================================
+           3. 行业应用
+           ============================================================ */
+        .industry-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+        .industry-item {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 18px 16px 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        .industry-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+        }
+        .industry-item:hover::before {
+            opacity: 1;
+        }
+        .industry-item::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius);
+            padding: 1px;
+            background: linear-gradient(135deg, transparent, transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: background 0.6s ease;
+            z-index: 1;
+        }
+        .industry-item:hover::after {
+            background: linear-gradient(135deg, var(--accent), rgba(45,125,210,0.2), var(--accent));
+        }
+        .industry-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(45,125,210,0.12);
+            border-color: rgba(45,125,210,0.3);
+        }
+        .industry-item:hover .img img {
+            transform: scale(1.05);
+        }
+        .industry-item:hover h4 {
+            color: var(--accent);
+        }
+        .industry-item:hover .link {
+            color: var(--accent);
+        }
+        .industry-item>* {
+            position: relative;
+            z-index: 2;
+        }
+        .industry-item .img {
+            height: 72px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: var(--bg-light);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.4s ease;
+        }
+        .industry-item .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .industry-item .date {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+            transition: color 0.3s ease;
+        }
+        .industry-item h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+        .industry-item p {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .industry-item .link {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.68rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        .industry-item.more-btn {
+            background: var(--bg-white);
+            border: 2px dashed var(--border);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+        }
+        .industry-item.more-btn .img {
+            background: transparent;
+            height: 60px;
+        }
+        .industry-item.more-btn .img i {
+            font-size: 2.4rem;
+            color: var(--text-muted);
+            opacity: 0.6;
+            transition: all 0.4s ease;
+        }
+        .industry-item.more-btn:hover .img i {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+        .industry-item.more-btn h4 {
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        .industry-item.more-btn p {
+            -webkit-line-clamp: 1;
+            color: var(--text-muted);
+        }
+        .industry-item.more-btn .link {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .industry-item.more-btn:hover .link {
+            color: var(--accent);
+        }
+
+        /* ============================================================
+           4. 关于我们
+           ============================================================ */
+        #about {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-light);
+        }
+        #about .about-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #about .about-bg .dot {
+            position: absolute;
+            border-radius: 50%;
+            animation: dotFloat 12s infinite alternate ease-in-out;
+        }
+        #about .about-bg .dot:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            top: -150px;
+            left: -150px;
+            background: radial-gradient(circle, rgba(45,125,210,0.12), transparent 70%);
+            animation-duration: 14s;
+            animation-delay: 0s;
+        }
+        #about .about-bg .dot:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            right: -100px;
+            background: radial-gradient(circle, rgba(45,125,210,0.10), transparent 70%);
+            animation-duration: 16s;
+            animation-delay: 2s;
+        }
+        #about .about-bg .dot:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 30%;
+            left: 20%;
+            background: radial-gradient(circle, rgba(45,125,210,0.08), transparent 70%);
+            animation-duration: 10s;
+            animation-delay: 4s;
+        }
+        #about .about-bg .dot:nth-child(4) {
+            width: 200px;
+            height: 200px;
+            bottom: 30%;
+            right: 20%;
+            background: radial-gradient(circle, rgba(45,125,210,0.07), transparent 70%);
+            animation-duration: 11s;
+            animation-delay: 1s;
+        }
+        #about .about-bg .dot:nth-child(5) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(45,125,210,0.05), transparent 70%);
+            animation-duration: 18s;
+            animation-delay: 3s;
+        }
+        @keyframes dotFloat {
+            0% { transform: translate(0,0) scale(1); opacity:0.4; }
+            100% { transform: translate(60px, -40px) scale(1.3); opacity:1; }
+        }
+        #about .container {
+            position: relative;
+            z-index: 1;
+        }
+        #about .cursor-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.10), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+            filter: blur(20px);
+        }
+        #about .cursor-glow.active {
+            opacity: 1;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+            line-height: 1.8;
+        }
+        .about-text .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .about-text .badge-group span {
+            background: var(--bg-light);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .about-stats .stat {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 28px 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-stats .stat::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(45,125,210,0.06), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .about-stats .stat:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 20px 56px rgba(45,125,210,0.18);
+            background: linear-gradient(145deg, #ffffff, #f0f7ff);
+        }
+        .about-stats .stat:hover::before {
+            opacity: 1;
+        }
+        .about-stats .stat:hover .num {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+        .about-stats .stat:hover .label {
+            color: var(--accent);
+        }
+        .about-stats .stat .num {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: inline-block;
+        }
+        .about-stats .stat .num .suffix {
+            font-size: 1.8rem;
+        }
+        .about-stats .stat .label {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            transition: color 0.3s ease;
+        }
+
+        /* ============================================================
+           5. 核心优势
+           ============================================================ */
+        .advantage-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .advantage-item {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 30px 20px 26px;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        .advantage-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            border-radius: var(--radius);
+        }
+        .advantage-item:hover::before {
+            opacity: 1;
+        }
+        .advantage-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(45,125,210,0.12);
+            border-color: var(--accent);
+        }
+        .advantage-item:hover .icon {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.10) rotate(-3deg);
+            box-shadow: 0 8px 28px rgba(45,125,210,0.25);
+        }
+        .advantage-item:hover h4 {
+            color: var(--accent);
+        }
+        .advantage-item>* {
+            position: relative;
+            z-index: 1;
+        }
+        .advantage-item .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(45,125,210,0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 1.8rem;
+            color: var(--accent);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .advantage-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            transition: color 0.3s ease;
+        }
+        .advantage-item p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ============================================================
+           6. 技术服务
+           ============================================================ */
+        #services {
+            background: #0a1e3a;
+            position: relative;
+            overflow: hidden;
+        }
+        #services::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('http://www.bxnav.cn/static/image/15426093700.jpg') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #services .services-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #services .services-bg .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(45,125,210,0.15);
+            animation: particleFloat linear infinite;
+        }
+        #services .services-bg .particle:nth-child(1) {
+            width: 8px;
+            height: 8px;
+            top: 10%;
+            left: 5%;
+            animation-duration: 16s;
+        }
+        #services .services-bg .particle:nth-child(2) {
+            width: 12px;
+            height: 12px;
+            top: 30%;
+            left: 90%;
+            animation-duration: 20s;
+            animation-delay: 2s;
+        }
+        #services .services-bg .particle:nth-child(3) {
+            width: 5px;
+            height: 5px;
+            top: 60%;
+            left: 10%;
+            animation-duration: 14s;
+            animation-delay: 4s;
+        }
+        #services .services-bg .particle:nth-child(4) {
+            width: 10px;
+            height: 10px;
+            top: 80%;
+            left: 80%;
+            animation-duration: 18s;
+            animation-delay: 1s;
+        }
+        #services .services-bg .particle:nth-child(5) {
+            width: 15px;
+            height: 15px;
+            top: 45%;
+            left: 50%;
+            animation-duration: 22s;
+            animation-delay: 3s;
+        }
+        #services .services-bg .particle:nth-child(6) {
+            width: 6px;
+            height: 6px;
+            top: 15%;
+            left: 60%;
+            animation-duration: 15s;
+            animation-delay: 5s;
+        }
+        #services .services-bg .particle:nth-child(7) {
+            width: 9px;
+            height: 9px;
+            top: 70%;
+            left: 35%;
+            animation-duration: 17s;
+            animation-delay: 2.5s;
+        }
+        #services .services-bg .particle:nth-child(8) {
+            width: 4px;
+            height: 4px;
+            top: 50%;
+            left: 75%;
+            animation-duration: 13s;
+            animation-delay: 6s;
+        }
+        @keyframes particleFloat {
+            0% { transform: translate(0,0) scale(1); opacity:0.2; }
+            25% { opacity:0.7; }
+            50% { transform: translate(80px,-50px) scale(1.6); opacity:0.9; }
+            75% { opacity:0.7; }
+            100% { transform: translate(-40px,30px) scale(0.8); opacity:0.2; }
+        }
+
+        #services .services-cycle-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #services .services-cycle-canvas canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #services .services-glow {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        #services .services-glow .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: glowFloat 10s infinite alternate ease-in-out;
+        }
+        #services .services-glow .glow-orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            right: -100px;
+            background: rgba(45,125,210,0.10);
+            animation-duration: 12s;
+        }
+        #services .services-glow .glow-orb:nth-child(2) {
+            width: 350px;
+            height: 350px;
+            bottom: -80px;
+            left: -80px;
+            background: rgba(45,125,210,0.08);
+            animation-duration: 14s;
+            animation-delay: 2s;
+        }
+        @keyframes glowFloat {
+            0% { transform: translate(0,0) scale(1); opacity:0.4; }
+            100% { transform: translate(50px,-40px) scale(1.2); opacity:0.8; }
+        }
+        #services .cursor-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.12), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+            filter: blur(40px);
+        }
+        #services .cursor-glow.active {
+            opacity: 1;
+        }
+        #services .container {
+            position: relative;
+            z-index: 2;
+        }
+        #services .section-label {
+            background: rgba(45,125,210,0.20);
+            color: #8bbff5;
+        }
+        #services .section-title {
+            color: #fff;
+        }
+        #services .section-title span {
+            color: #6db3f2;
+        }
+        #services .section-desc {
+            color: rgba(255,255,255,0.7);
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .service-item {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius);
+            padding: 32px 20px 28px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .service-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--mouse-x,50%) var(--mouse-y,50%), rgba(45,125,210,0.12), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+        .service-item:hover::before {
+            opacity: 1;
+        }
+        .service-item:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.10);
+            border-color: rgba(45,125,210,0.30);
+            box-shadow: 0 16px 56px rgba(0,0,0,0.30);
+        }
+        .service-item:hover .icon {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.10) rotate(-4deg);
+            box-shadow: 0 8px 32px rgba(45,125,210,0.35);
+        }
+        .service-item:hover h4 {
+            color: #6db3f2;
+        }
+        .service-item .icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: rgba(45,125,210,0.15);
+            border: 1px solid rgba(45,125,210,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 2rem;
+            color: #6db3f2;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .service-item h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+        .service-item p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* ============================================================
+           7. 合作伙伴
+           ============================================================ */
+        #partners {
+            position: relative;
+            overflow: hidden;
+        }
+        #partners .cursor-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.06), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+            filter: blur(40px);
+        }
+        #partners .cursor-glow.active {
+            opacity: 1;
+        }
+        #partners .container {
+            position: relative;
+            z-index: 1;
+        }
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+        }
+        .partner-item {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 20px 12px 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        .partner-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            border-radius: var(--radius);
+        }
+        .partner-item:hover::before {
+            opacity: 1;
+        }
+        .partner-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(45,125,210,0.10);
+        }
+        .partner-item:hover i {
+            opacity: 0.8;
+            color: var(--accent);
+            transform: scale(1.12) rotate(-3deg);
+        }
+        .partner-item:hover .name {
+            color: var(--accent);
+        }
+        .partner-item>* {
+            position: relative;
+            z-index: 1;
+        }
+        .partner-item i {
+            font-size: 2rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .partner-item .name {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        /* ============================================================
+           8. 新闻资讯
+           ============================================================ */
+        .news-carousel-wrap {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius);
+        }
+        .news-carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+            gap: 24px;
+        }
+        .news-card {
+            flex: 0 0 calc(33.333% - 16px);
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            min-width: 0;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+        .news-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            background: linear-gradient(145deg, #e8f4fd, #d4e8fa);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 0;
+        }
+        .news-card:hover::before {
+            opacity: 1;
+        }
+        .news-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(45,125,210,0.12);
+            background: var(--bg-white);
+        }
+        .news-card:hover .img img {
+            transform: scale(1.04);
+        }
+        .news-card:hover h4 {
+            color: var(--accent);
+        }
+        .news-card:hover .readmore {
+            color: var(--accent);
+        }
+        .news-card>* {
+            position: relative;
+            z-index: 1;
+        }
+        .news-card .img {
+            height: 150px;
+            overflow: hidden;
+            background: var(--bg-light);
+        }
+        .news-card .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .news-card .body {
+            padding: 18px 20px 22px;
+        }
+        .news-card .body .date {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .news-card .body h4 {
+            font-size: 0.92rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+        .news-card .body p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+        .news-card .body .readmore {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        .news-arrows {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .news-arrows button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            color: var(--text-secondary);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .news-arrows button:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(45,125,210,0.25);
+        }
+
+        /* ============================================================
+           9. 联系我们
+           ============================================================ */
+        #contact {
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-light);
+        }
+        #contact .contact-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: linear-gradient(135deg, #d4e8fa, #e8f4fd, #d4e8fa, #e8f4fd);
+            background-size: 300% 300%;
+            animation: gradientScroll 12s ease-in-out infinite alternate;
+        }
+        @keyframes gradientScroll {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        #contact .contact-stars-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        #contact .contact-stars-canvas canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        #contact .cursor-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45,125,210,0.08), transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+            filter: blur(40px);
+        }
+        #contact .cursor-glow.active {
+            opacity: 1;
+        }
+        #contact .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        .contact-info h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .contact-info .item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .contact-info .item i {
+            color: var(--accent);
+            width: 20px;
+            margin-top: 2px;
+        }
+        .contact-info .item a {
+            color: var(--text-secondary);
+            transition: 0.2s;
+        }
+        .contact-info .item a:hover {
+            color: var(--accent);
+        }
+        .contact-info .qr-row {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+        }
+        .contact-info .qr-row .qr-item {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        .contact-info .qr-row .qr-item img {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            background: var(--bg-white);
+            padding: 4px;
+            border: 1px solid var(--border);
+            margin-bottom: 4px;
+            object-fit: contain;
+        }
+        .friend-links h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .friend-links .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 24px;
+        }
+        .friend-links .grid a {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            padding: 4px 0;
+            transition: 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .friend-links .grid a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* ===== 底部 ===== */
+        .footer {
+            background: var(--bg-white);
+            padding: 24px 0 18px;
+            border-top: 1px solid var(--border);
+        }
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer .copy {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .footer .copy a {
+            color: var(--text-muted);
+        }
+        .footer .copy a:hover {
+            color: var(--accent);
+        }
+        .footer .social {
+            display: flex;
+            gap: 10px;
+        }
+        .footer .social a {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        .footer .social a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* ============================================================
+           响应式
+           ============================================================ */
+        @media (max-width: 1200px) {
+            .product-grid { grid-template-columns: repeat(3,1fr); }
+            .partner-grid { grid-template-columns: repeat(4,1fr); }
+            .services-grid { grid-template-columns: repeat(2,1fr); }
+        }
+        @media (max-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr; gap:40px; }
+            .advantage-grid { grid-template-columns: repeat(2,1fr); }
+            .solution-grid { grid-template-columns: repeat(2,1fr); }
+            .industry-grid { grid-template-columns: repeat(3,1fr); }
+            .news-card { flex: 0 0 calc(50% - 12px); }
+            .contact-grid { grid-template-columns: 1fr; gap:40px; }
+        }
+        @media (max-width: 992px) {
+            .nav-desktop { display: none; }
+            .menu-toggle { display: block; }
+            .nav-mobile { display: flex; }
+            .hero { height: 480px; }
+        }
+
+        /* ===== 手机端（≤768px）：两列/三列 + 英雄缩放 ===== */
+        @media (max-width: 768px) {
+            body { padding-top: 64px; }
+            .navbar { height: 64px; }
+            .nav-mobile { top: 64px; }
+            .section-title { font-size: 1.8rem; }
+            .section-pad { padding: 48px 0; }
+            .nav-right .lang,
+            .nav-right .search-box { display: none; }
+
+            /* 核心模块两列 */
+            .advantage-grid { grid-template-columns: 1fr 1fr; }
+            .product-grid { grid-template-columns: 1fr 1fr; }
+            #solutions .solution-grid { grid-template-columns: 1fr 1fr; }
+            .industry-grid { grid-template-columns: 1fr 1fr; }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            /* 合作伙伴三列 */
+            .partner-grid { grid-template-columns: repeat(3, 1fr); }
+
+            .news-card { flex: 0 0 calc(100% - 0px); }
+            .about-stats { grid-template-columns: 1fr 1fr; }
+
+            /* 英雄区：等比例缩放 + 隐藏动画 */
+            .hero {
+                height: auto;
+                aspect-ratio: 16 / 6.5;
+                max-height: 60vh;
+            }
+            .hero-effect {
+                display: none;
+            }
+
+            .hero-arrows button { width:36px; height:36px; font-size:0.9rem; }
+            .section-head-left { flex-direction: column; align-items: flex-start; }
+            #contact .friend-links .grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            .product-categories { gap:6px; }
+            .product-categories a { padding:4px 14px; font-size:0.7rem; }
+        }
+
+        /* ===== 小手机（≤480px）：保持列数，仅微调间距 ===== */
+        @media (max-width: 480px) {
+            /* 保持两列，不降级为单列 */
+            .advantage-grid,
+            .product-grid,
+            #solutions .solution-grid,
+            .industry-grid,
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            /* 合作伙伴保持三列 */
+            .partner-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .hero {
+                aspect-ratio: 16 / 7;
+                max-height: 50vh;
+            }
+            .hero-arrows { padding:0 8px; }
+            .hero-arrows button { width:28px; height:28px; font-size:0.7rem; }
+            .logo img { height:32px; }
+            .section-title { font-size: 1.5rem; }
+            .section-pad { padding: 36px 0; }
+            .product-card { padding: 16px 12px 16px; }
+            .solution-card { padding: 20px 16px; }
+            .advantage-item { padding: 20px 14px; }
+            .industry-item { padding: 14px 12px 16px; }
+            .partner-item { padding: 14px 8px 12px; }
+            .service-item { padding: 24px 14px 20px; }
+        }
+    
+    /* ===== 内页正文样式 ===== */
+    .page-banner{width:100%;height:300px;object-fit:cover;display:block;}
+    .page-section{width:100%;max-width:1200px;margin:0 auto;padding:48px 24px 64px;}
+    .page-guide{margin-bottom:30px;}
+    .page-title{font-size:28px;font-weight:700;color:var(--primary,#0a2b5c);display:flex;align-items:baseline;gap:12px;letter-spacing:1px;line-height:1.4;}
+    .page-title span{font-size:13px;font-weight:400;color:var(--text-muted,#7a91aa);letter-spacing:2px;text-transform:uppercase;}
+    .page-line{width:56px;height:3px;background:var(--accent,#2d7dd2);border-radius:2px;margin:14px 0 22px;}
+    .menu-tags{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 10px;}
+    .menu-tags a{display:inline-block;padding:8px 18px;border-radius:var(--radius-sm,8px);background:#fff;border:1px solid var(--border,#dce5ef);color:var(--text-primary,#0a1e3a);font-size:14px;text-decoration:none;transition:all .3s;}
+    .menu-tags a:hover,.menu-tags a.active{background:var(--accent,#2d7dd2);color:#fff;border-color:var(--accent,#2d7dd2);}
+    .breadcrumb{font-size:13px;color:var(--text-muted,#7a91aa);margin-bottom:18px;line-height:2;}
+    .breadcrumb a{color:var(--text-secondary,#3d5670);text-decoration:none;}
+    .breadcrumb a:hover{color:var(--accent,#2d7dd2);}
+    .breadcrumb i{margin:0 8px;font-style:normal;color:#c3d0de;}
+    .page-content{background:#fff;border-radius:var(--radius,16px);box-shadow:var(--shadow-sm,0 2px 16px rgba(10,30,60,.06));padding:36px 40px;line-height:1.9;color:var(--text-primary,#0a1e3a);overflow:hidden;}
+    .page-content img{max-width:100%;height:auto;border-radius:8px;display:block;margin:14px auto;}
+    .page-content p{margin-bottom:12px;font-size:15px;}
+    .page-content ul,.page-content ol{margin:0 0 14px 2em;font-size:15px;}
+    .page-content table{border-collapse:collapse;max-width:100%;margin:14px 0;font-size:14px;background:#fff;}
+    .page-content th,.page-content td{border:1px solid var(--border,#dce5ef);padding:8px 12px;text-align:left;word-break:break-all;}
+    .page-content th{background:var(--bg-light,#e8eef6);color:var(--primary,#0a2b5c);}
+    .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    @media(max-width:992px){.card-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:600px){.card-grid{grid-template-columns:1fr;}}
+    .card{display:block;background:#fff;border-radius:var(--radius,16px);box-shadow:var(--shadow-sm,0 2px 16px rgba(10,30,60,.06));overflow:hidden;text-decoration:none;transition:transform .35s,box-shadow .35s;border:1px solid var(--border,#dce5ef);}
+    .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md,0 8px 40px rgba(10,30,60,.10));}
+    .card img{width:100%;height:200px;object-fit:cover;display:block;}
+    .card .card-body{padding:18px;}
+    .card .card-name{font-size:17px;font-weight:600;color:var(--primary,#0a2b5c);margin-bottom:8px;line-height:1.4;}
+    .card .card-text{font-size:13px;color:var(--text-secondary,#3d5670);line-height:1.7;height:66px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;}
+    .card .card-time{font-size:12px;color:var(--text-muted,#7a91aa);margin-top:10px;}
+    .pro_title{font-size:19px;font-weight:700;color:var(--primary,#0a2b5c);border-left:4px solid var(--accent,#2d7dd2);padding-left:12px;margin:26px 0 16px;}
+    .news-page-title{font-size:26px;font-weight:700;color:var(--primary,#0a2b5c);text-align:center;margin-bottom:12px;line-height:1.5;}
+    .news-meta{text-align:center;color:var(--text-muted,#7a91aa);font-size:13px;margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid var(--border,#dce5ef);}
+    .about-block{margin-bottom:36px;}
+    .about-title{font-size:24px;font-weight:700;color:var(--primary,#0a2b5c);display:flex;align-items:baseline;gap:10px;}
+    .about-title span{font-size:12px;color:var(--text-muted,#7a91aa);letter-spacing:2px;}
+    .about-line{width:56px;height:3px;background:var(--accent,#2d7dd2);border-radius:2px;margin:12px 0 20px;}
+    .placeholder{text-align:center;padding:90px 20px;}
+    .placeholder i.fa{font-size:56px;color:var(--accent,#2d7dd2);opacity:.5;margin-bottom:18px;}
+    .placeholder h3{font-size:24px;color:var(--primary,#0a2b5c);margin-bottom:10px;}
+    .placeholder p{color:var(--text-muted,#7a91aa);}
+    .news-item{display:flex;gap:18px;padding:22px 6px;border-bottom:1px solid var(--border,#dce5ef);text-decoration:none;transition:background .3s;}
+    .news-item:hover{background:var(--bg-light,#e8eef6);}
+    .news-item img{width:170px;height:110px;object-fit:cover;border-radius:8px;flex:none;}
+    .news-item h4{font-size:17px;color:var(--primary,#0a2b5c);margin-bottom:8px;font-weight:600;line-height:1.4;}
+    .news-item p{font-size:13px;color:var(--text-secondary,#3d5670);line-height:1.7;}
+    .news-item .news-t{font-size:12px;color:var(--text-muted,#7a91aa);margin-top:10px;}
+    @media(max-width:600px){.news-item{flex-direction:column;}.news-item img{width:100%;height:auto;}}
+    
+    
+    </style>
+</head>
+<body>
+
+<!-- ===== 导航 ===== -->
+<header class="navbar" id="navbar">
+<div class="container">
+<div class="logo">
+<a href="../../index.html">
+<img alt="天星北斗科技" src="https://img8.dfco.cn/txbd/logo.png"/>
+</a>
+</div>
+<ul class="nav-desktop">
+<li><a class="active" href="../../index.html">首页</a></li>
+<li>
+<a href="../index.html">产品中心 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="../gnssmk/index.html">GNSS模块</a></li>
+<li><a href="../gnsstx/index.html">GNSS天线</a></li>
+<li><a href="index.html">GNSS接收机</a></li>
+<li><a href="../bdscj/index.html">北斗手持机</a></li>
+<li><a href="../dhdwzd/index.html">导航定位终端</a></li>
+<li><a href="../bdsczd/index.html">北斗数传终端</a></li>
+<li><a href="../jccgq/index.html">监测传感器</a></li>
+<li><a href="../nyjqr/index.html">农业机器人</a></li>
+</ul>
+</li>
+<li>
+<a href="../../jjfa/index.html">解决方案 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="../../jjfa/aqjc/index.html">安全监测</a></li>
+<li><a href="../../jjfa/szsg/index.html">机械控制</a></li>
+<li><a href="../../jjfa/jzny/index.html">智慧农业</a></li>
+<li><a href="../../jjfa/clch/index.html">测量测绘</a></li>
+<li><a href="../../jjfa/dhdw/index.html">导航定位</a></li>
+<li><a href="../../jjfa/wrxt/index.html">无人系统</a></li>
+</ul>
+</li>
+<li>
+<a href="../../hyyy/index.html">行业应用 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="../../hyyy/jccp/index.html">基础产品</a></li>
+<li><a href="../../hyyy/jt/index.html">交通</a></li>
+<li><a href="../../hyyy/ny/index.html">农业</a></li>
+<li><a href="../../hyyy/ly/index.html">林业</a></li>
+<li><a href="../../hyyy/ks/index.html">矿山</a></li>
+<li><a href="../../hyyy/tzhy/index.html">特种行业</a></li>
+<li><a href="../../hyyy/fzjz/index.html">防灾减灾</a></li>
+<li><a href="../../hyyy/dl/index.html">电力</a></li>
+<li><a href="../../hyyy/qx/index.html">气象</a></li>
+<li><a href="../../hyyy/yj/index.html">应急</a></li>
+<li><a href="../../hyyy/gt/index.html">国土</a></li>
+</ul>
+</li>
+<li>
+<a href="../../gywm/index.html">关于我们 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="../../gywm/index.html">公司简介</a></li>
+<li><a href="../../gywm/gsjj/index.html">核心优势</a></li>
+<li><a href="../../gywm/qywh/index.html">合作伙伴</a></li>
+<li><a href="../../gywm/lxwm/index.html">联系我们</a></li>
+</ul>
+</li>
+<li>
+<a href="../../jsfw/index.html">技术服务 <i class="fas fa-chevron-down"></i></a>
+<ul class="dropdown">
+<li><a href="../../jsfw/index.html">技术咨询</a></li>
+<li><a href="../../jsfw/index.html">定制开发</a></li>
+<li><a href="../../jsfw/index.html">系统集成</a></li>
+<li><a href="../../jsfw/index.html">运维服务</a></li>
+</ul>
+</li>
+<li><a href="../../gywm/xwzx/index.html">新闻资讯</a></li>
+</ul>
+<div class="nav-right">
+<div class="lang">
+<a class="active" href="../../index.html">中</a><span class="sep">|</span><a href="../../index.html">EN</a>
+</div>
+<div class="search-box">
+<input placeholder="搜索" type="text"/>
+<button type="submit"><i class="fas fa-search"></i></button>
+</div>
+<button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+</div>
+<ul class="nav-mobile" id="navMobile">
+<li><a href="../../index.html">首页</a></li>
+<li>
+<a class="mobile-parent" href="../../index.html">产品中心 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="../gnssmk/index.html">GNSS模块</a></li>
+<li><a href="../gnsstx/index.html">GNSS天线</a></li>
+<li><a href="index.html">GNSS接收机</a></li>
+<li><a href="../bdscj/index.html">北斗手持机</a></li>
+<li><a href="../dhdwzd/index.html">导航定位终端</a></li>
+<li><a href="../bdsczd/index.html">北斗数传终端</a></li>
+<li><a href="../jccgq/index.html">监测传感器</a></li>
+<li><a href="../nyjqr/index.html">农业机器人</a></li>
+</ul>
+</li>
+<li>
+<a class="mobile-parent" href="../../index.html">解决方案 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="../../jjfa/aqjc/index.html">安全监测</a></li>
+<li><a href="../../jjfa/szsg/index.html">机械控制</a></li>
+<li><a href="../../jjfa/jzny/index.html">智慧农业</a></li>
+<li><a href="../../jjfa/clch/index.html">测量测绘</a></li>
+<li><a href="../../jjfa/dhdw/index.html">导航定位</a></li>
+<li><a href="../../jjfa/wrxt/index.html">无人系统</a></li>
+</ul>
+</li>
+<li>
+<a class="mobile-parent" href="../../index.html">行业应用 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="../../hyyy/jccp/index.html">基础产品</a></li>
+<li><a href="../../hyyy/jt/index.html">交通</a></li>
+<li><a href="../../hyyy/ny/index.html">农业</a></li>
+<li><a href="../../hyyy/ly/index.html">林业</a></li>
+<li><a href="../../hyyy/ks/index.html">矿山</a></li>
+<li><a href="../../hyyy/tzhy/index.html">特种行业</a></li>
+<li><a href="../../hyyy/fzjz/index.html">防灾减灾</a></li>
+<li><a href="../../hyyy/dl/index.html">电力</a></li>
+<li><a href="../../hyyy/qx/index.html">气象</a></li>
+<li><a href="../../hyyy/yj/index.html">应急</a></li>
+<li><a href="../../hyyy/gt/index.html">国土</a></li>
+</ul>
+</li>
+<li>
+<a class="mobile-parent" href="../../index.html">关于我们 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="../../gywm/index.html">公司简介</a></li>
+<li><a href="../../gywm/gsjj/index.html">核心优势</a></li>
+<li><a href="../../gywm/qywh/index.html">合作伙伴</a></li>
+<li><a href="../../gywm/lxwm/index.html">联系我们</a></li>
+</ul>
+</li>
+<li>
+<a class="mobile-parent" href="../../index.html">技术服务 <i class="fas fa-chevron-down"></i></a>
+<ul class="sub-mobile">
+<li><a href="../../jsfw/index.html">技术咨询</a></li>
+<li><a href="../../jsfw/index.html">定制开发</a></li>
+<li><a href="../../jsfw/index.html">系统集成</a></li>
+<li><a href="../../jsfw/index.html">运维服务</a></li>
+</ul>
+</li>
+<li><a href="../../gywm/xwzx/index.html">新闻资讯</a></li>
+</ul>
+</div>
+</header><img class="page-banner" src="http://www.bxnav.cn/static/picture/15426990060.jpg" alt="T31 高精度组合导航接收机">
+<section class="page-section">
+<div class="page-guide">
+<h2 class="page-title">T31 高精度组合导航接收机<span>Product</span></h2>
+<div class="page-line"></div>
+</div>
+<div class="page-content">
+<div class="breadcrumb"><a href="../../index.html">首页</a><i>›</i><a href="../index.html">产品中心</a><i>›</i><a href="index.html">GNSS接收机</a><i>›</i><span>T31 高精度组合导航接收机</span></div><div class="pro-zone"><div class="pro_js">
+<div class="web_w">
+<div class="pro_js_text am-paragraph-default">
+<div class="pro_title"> 产品介绍 </div>
+<p> 
+
+T31是一款高精度组合导航（GNSS+INS）定位终端，采用多传感器数据融合技术将卫星定位与惯性测量相结合，其内置GNSS模块和高精度 MEMS 陀螺仪与加速度计，支持RTCM数据接入，支持外接里程计信息进行辅助，提供多种性能的GNSS组件和INS组件选择。<br/>
+
+深度融合IMU/RTK等数据源，实时输出载体位姿、速度等导航数据。T31系统在卫星定位方面采用多系统多频方案，具有全天候、全球覆盖、高精度、高效率、应用广泛等优点。<br/>
+
+可在高速/城市道路、高架桥下、隧道、地下车库等各种复杂场景下，实现全场景厘米级高</p>
+<p> <strong> <span style="color: #155faa; font-size: 15px;"> 特点与优势： </span> </strong> </p>
+<ul>
+
+支持 GNSS、INS 定位原始数据输出
+
+支持外接 GNSS、INS 设备作为输入
+
+支持 CAN 轮速信息接入
+
+支持外接脉冲轮速计作为输入
+
+NMEA 统一坐标输出格式
+
+具备 CAN FD 和 RS 232接口
+
+具备灵活输出格式，便于客户二次开发
+
+具备 4G 功能，向云端上传定位数据
+
+具备 SD 卡记录数据功能
+
+支持 IEEE 802.15.4z IR-UWB 协议
+
+适用于室内外一体化定位场景</ul>
+</div>
+<div class="pro_js_img"> <img alt="T31 高精度组合导航接收机" src="http://www.bxnav.cn/d/file/319568f39058abcbdeec01ea44da23ee.png"/> </div>
+<div class="am-cf"> </div>
+</div>
+</div>
+<div class="pro_cs">
+<div class="web_w">
+<div class="am-paragraph-default">
+<div class="pro_title"> 产品参数 </div>
+<div class="am-scrollable-horizontal">
+<table border="0" cellpadding="0" cellspacing="0" height="888" width="832">
+<tbody>
+<tr height="19">
+<td height="19" width="105" x:str="">项目</td>
+<td width="212" x:str="">内容</td>
+<td width="514" x:str="">参数</td>
+</tr>
+<tr height="38">
+<td height="196" rowspan="7" width="105" x:str="">融合定位性能指标</td>
+<td width="212" x:str="">融合定位精度</td>
+<td width="514" x:str="">＜ 0.02m (@RMS，RTK/INS)<br/>＜ 0.06m (@RMS，UWB/INS)</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">融合定位精度</td>
+<td width="514" x:str="">＜ 0.02m (@RMS，RTK/INS)</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">融合定位精度</td>
+<td width="514" x:str="">0.15%*D D：航位推算行驶距离</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">姿态精度</td>
+<td width="514" x:str="">0.04° (1 σ)</td>
+</tr>
+<tr height="38">
+<td width="212" x:str="">授时精度</td>
+<td width="514" x:str="">5ns@GNSS<br/>1us@UWB（选配T3100 数字天线）</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">数据更新率</td>
+<td width="514" x:str="">1~100Hz</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">数据输出</td>
+<td width="514" x:str="">NMEA，支持统一坐标格式输出</td>
+</tr>
+<tr height="57">
+<td height="114" rowspan="2" width="105" x:str="">INS 性能指标</td>
+<td width="212" x:str="">陀螺仪</td>
+<td width="514" x:str="">测量范围 ±450° /s<br/>零偏不稳定性 0.8° /H<br/>刻度误差 ≤ 0.01%</td>
+</tr>
+<tr height="57">
+<td width="212" x:str="">加速度计</td>
+<td width="514" x:str="">测量范围 ±16g<br/>零偏不稳定性 ≤ 30ug<br/>刻度误差 ≤ 0.1%</td>
+</tr>
+<tr height="24">
+<td height="155" rowspan="7" width="105" x:str="">GNSS 性能指标</td>
+<td width="212" x:str="">支持导航系统</td>
+<td width="514" x:str="">GPS/BDS/GLONASS/Galileo</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">冷启动时间</td>
+<td width="514" x:str="">＜ 45s</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">热启动时间</td>
+<td width="514" x:str="">＜ 20s</td>
+</tr>
+<tr height="19">
+<td width="212" x:str="">重捕获时间</td>
+<td width="514" x:str="">≤ 1s</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">水平定位精度</td>
+<td width="514" x:str="">0.6cm + 0.5ppm</td>
+</tr>
+<tr height="19">
+<td width="212" x:str="">高程定位精度</td>
+<td width="514" x:str="">1.0cm + 1ppm</td>
+</tr>
+<tr height="21">
+<td width="212" x:str="">姿态精度</td>
+<td width="514" x:str="">航向 0.15°俯仰 0.25° RMS/1m 基线</td>
+</tr>
+<tr height="36">
+<td height="156" rowspan="5" width="105" x:str="">接口信息</td>
+<td width="212" x:str="">通讯接口</td>
+<td width="514" x:str="">3*CAN、 4*RS232</td>
+</tr>
+<tr height="36">
+<td width="212" x:str="">RS232波特率</td>
+<td width="514" x:str="">up to 961200bps</td>
+</tr>
+<tr height="36">
+<td width="212" x:str="">CAN 波特率</td>
+<td width="514" x:str="">1Mbps</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">GNSS天线接口</td>
+<td width="514" x:str="">2*SMA</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">4G 天线接口</td>
+<td width="514" x:str="">1*SMA</td>
+</tr>
+<tr height="24">
+<td height="104" rowspan="4" width="105" x:str="">电气参数</td>
+<td width="212" x:str="">工作电压</td>
+<td width="514" x:str="">+10~+36V</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">工作电流</td>
+<td width="514" x:str="">＜ 850mA @ 12V</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">静态电流</td>
+<td width="514" x:str="">＜1mA</td>
+</tr>
+<tr height="32">
+<td width="212" x:str="">标称功耗</td>
+<td width="514" x:str="">＜10W</td>
+</tr>
+<tr height="24">
+<td height="144" rowspan="6" x:str="">通用参数</td>
+<td width="212" x:str="">工作温度</td>
+<td width="514" x:str="">-20℃ ~ +65℃</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">存储温度</td>
+<td width="514" x:str="">-40℃ ~ +85℃</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">工作湿度</td>
+<td width="514" x:str="">0%RH ~ 95%RH</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">产品尺寸</td>
+<td width="514" x:str="">168.7mm x116.4.0mm x 40mm</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">产品重量</td>
+<td width="514" x:str="">630g±10 g</td>
+</tr>
+<tr height="24">
+<td width="212" x:str="">产品材质</td>
+<td width="514" x:str="">合金铝</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><footer class="footer" id="footer">
+<div class="container">
+<div class="copy">
+<i class="far fa-copyright"></i> 2023 天星北斗科技（成都）有限公司  |  <a href="../../index.html" target="_blank">蜀ICP备2022011743号-1</a>
+</div>
+<div class="social">
+<a href="../../index.html"><i class="fab fa-weixin"></i></a>
+<a href="../../index.html"><i class="fab fa-weibo"></i></a>
+<a href="../../index.html"><i class="fas fa-star"></i></a>
+</div>
+</div>
+</footer>
+<script>
+        (function() {
+            const toggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('navMobile');
+            if (toggle && mobileMenu) {
+                toggle.addEventListener('click', function(e) { e.stopPropagation(); mobileMenu.classList.toggle('open'); });
+                document.querySelectorAll('.mobile-parent').forEach(function(parent) {
+                    parent.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const sub = this.nextElementSibling;
+                        if (sub && sub.classList.contains('sub-mobile')) { sub.classList.toggle('open'); this.classList.toggle('open'); }
+                    });
+                });
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenu.contains(e.target) && !toggle.contains(e.target)) { mobileMenu.classList.remove('open'); }
+                });
+            }
+            
+            
+            var cur = location.pathname.split('/').pop() || 'index.html';
+            var navbg = document.querySelectorAll('.nav-desktop > li > a');
+            navbg.forEach(function(a2) {
+                if (a2.getAttribute('href') && a2.getAttribute('href').split('/').pop().indexOf(cur) !== -1 && !a2.querySelector('i')) {
+                    a2.style.color = '#4a8fe0';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
